@@ -23,6 +23,7 @@ export default function RegisterDialog({open, onClose, onConnection}){
     const {register, logining} = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
 
     const handleClose = () => {
         onClose();
@@ -33,7 +34,7 @@ export default function RegisterDialog({open, onClose, onConnection}){
         onClose();
     }
 
-    const inputsValid = !!email && !!password && email.length >=3 && email.includes('@');
+    const inputsValid = !!email && !!password && password === passwordConfirm && email.length >=3 && email.includes('@');
 
     return (
         <Dialog
@@ -74,6 +75,25 @@ export default function RegisterDialog({open, onClose, onConnection}){
                             type="password"
                             value={password}
                             onChange={(e) => {setPassword(e.target.value)}}
+                            fullWidth
+                            startAdornment={
+                                <InputAdornment position="start">
+                                    <VpnKeyIcon />
+                                </InputAdornment>
+                            }
+                        />
+                    </FormControl>
+                </div>
+                <div className="d-block mt-2">
+                    <FormControl variant="standard">
+                        <InputLabel htmlFor="password-confirm-login">
+                            Confirmez le mot de passe
+                        </InputLabel>
+                        <Input
+                            id="password-confirm-login"
+                            type="password"
+                            value={passwordConfirm}
+                            onChange={(e) => {setPasswordConfirm(e.target.value)}}
                             fullWidth
                             startAdornment={
                                 <InputAdornment position="start">
