@@ -23,6 +23,7 @@ export default function LoginDialog({open, onClose, onRegister}){
     const {login, logining} = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
 
     const handleClose = () => {
         onClose();
@@ -30,7 +31,7 @@ export default function LoginDialog({open, onClose, onRegister}){
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        await login(email, password);
+        await login(email, password).catch(error => {});
         onClose();
     }
 
