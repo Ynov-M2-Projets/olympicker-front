@@ -50,11 +50,12 @@ export default function RegisterDialog({open, onClose, onConnection}){
                 <DialogContent>
                     <div className="d-block">
                         <FormControl variant="standard">
-                            <InputLabel htmlFor="email-login">
+                            <InputLabel htmlFor="email-register">
                                 Adresse email
                             </InputLabel>
                             <Input
-                                id="email-login"
+                                autoFocus
+                                id="email-register"
                                 type="email"
                                 value={email}
                                 onChange={(e) => {setEmail(e.target.value)}}
@@ -69,11 +70,11 @@ export default function RegisterDialog({open, onClose, onConnection}){
                     </div>
                     <div className="d-block mt-2">
                         <FormControl variant="standard">
-                            <InputLabel htmlFor="password-login">
+                            <InputLabel htmlFor="password-register">
                                 Mot de passe
                             </InputLabel>
                             <Input
-                                id="password-login"
+                                id="password-register"
                                 type="password"
                                 value={password}
                                 onChange={(e) => {setPassword(e.target.value)}}
@@ -88,11 +89,11 @@ export default function RegisterDialog({open, onClose, onConnection}){
                     </div>
                     <div className="d-block mt-2">
                         <FormControl variant="standard">
-                            <InputLabel htmlFor="password-confirm-login">
+                            <InputLabel htmlFor="password-confirm-register">
                                 Confirmez le mot de passe
                             </InputLabel>
                             <Input
-                                id="password-confirm-login"
+                                id="password-confirm-register"
                                 type="password"
                                 value={passwordConfirm}
                                 onChange={(e) => {setPasswordConfirm(e.target.value)}}

@@ -53,6 +53,7 @@ export default function LoginDialog({open, onClose, onRegister}){
                                 Adresse email
                             </InputLabel>
                             <Input
+                                autoFocus
                                 id="email-login"
                                 type="email"
                                 value={email}

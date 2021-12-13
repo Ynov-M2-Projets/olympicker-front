@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 
 const mainLinks = [
-    {text: 'Acceuil', link: '/', icon: <HomeIcon/>},
+    {text: 'Accueil', link: '/', icon: <HomeIcon/>},
     {text: 'Sports', link: '/sports', icon: <SportsHandballIcon/>},
     {text: 'Tournois', link: '/tournaments', icon: <AccountTreeIcon/>},
 ];
@@ -52,7 +52,7 @@ export default function MenuDrawer({open, toggleCallback}){
                     <>
                         <Divider />
                         <List>
-                            <ListItem button>
+                            <ListItem button component={Link} to="/profile">
                                 <ListItemIcon>
                                     <AccountCircleIcon/>
                                 </ListItemIcon>
