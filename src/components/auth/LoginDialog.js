@@ -28,7 +28,8 @@ export default function LoginDialog({open, onClose, onRegister}){
         onClose();
     }
 
-    const handleLogin = async () => {
+    const handleLogin = async (e) => {
+        e.preventDefault();
         await login(email, password);
         onClose();
     }
@@ -43,60 +44,63 @@ export default function LoginDialog({open, onClose, onRegister}){
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle className="text-center">Connexion</DialogTitle>
-            <DialogContent>
-                <div className="d-block">
-                    <FormControl variant="standard">
-                        <InputLabel htmlFor="email-login">
-                            Adresse email
-                        </InputLabel>
-                        <Input
-                            id="email-login"
-                            type="email"
-                            value={email}
-                            onChange={(e) => {setEmail(e.target.value)}}
-                            fullWidth
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <AccountCircle />
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                </div>
-                <div className="d-block mt-2">
-                    <FormControl variant="standard">
-                        <InputLabel htmlFor="password-login">
-                            Mot de passe
-                        </InputLabel>
-                        <Input
-                            id="password-login"
-                            type="password"
-                            value={password}
-                            onChange={(e) => {setPassword(e.target.value)}}
-                            fullWidth
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <VpnKeyIcon />
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                </div>
-                <div className="mt-2">
-                    Nouveau ? <a href="#" onClick={onRegister}>Inscription</a>
-                </div>
-            </DialogContent>
-            <DialogActions>
-                <LoadingButton
-                    loading={logining}
-                    loadingPosition="start"
-                    startIcon={<LoginIcon/>}
-                    onClick={handleLogin}
-                    disabled={!inputsValid}
-                >Connexion</LoadingButton>
-                <Button onClick={handleClose}>Annuler</Button>
-            </DialogActions>
+            <form onSubmit={handleLogin}>
+                <DialogTitle className="text-center">Connexion</DialogTitle>
+                <DialogContent>
+                    <div className="d-block">
+                        <FormControl variant="standard">
+                            <InputLabel htmlFor="email-login">
+                                Adresse email
+                            </InputLabel>
+                            <Input
+                                autoFocus
+                                id="email-login"
+                                type="email"
+                                value={email}
+                                onChange={(e) => {setEmail(e.target.value)}}
+                                fullWidth
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <AccountCircle />
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    </div>
+                    <div className="d-block mt-2">
+                        <FormControl variant="standard">
+                            <InputLabel htmlFor="password-login">
+                                Mot de passe
+                            </InputLabel>
+                            <Input
+                                id="password-login"
+                                type="password"
+                                value={password}
+                                onChange={(e) => {setPassword(e.target.value)}}
+                                fullWidth
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <VpnKeyIcon />
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    </div>
+                    <div className="mt-2">
+                        Nouveau ? <a href="#" onClick={onRegister}>Inscription</a>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <LoadingButton
+                        type="submit"
+                        loading={logining}
+                        loadingPosition="start"
+                        startIcon={<LoginIcon/>}
+                        disabled={!inputsValid}
+                    >Connexion</LoadingButton>
+                    <Button onClick={handleClose}>Annuler</Button>
+                </DialogActions>
+            </form>
         </Dialog>
     );
 }
