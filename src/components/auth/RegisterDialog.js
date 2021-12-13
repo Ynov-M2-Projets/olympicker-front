@@ -24,6 +24,7 @@ export default function RegisterDialog({open, onClose, onConnection}){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
+    const [error, setError] = useState(null);
 
     const handleClose = () => {
         onClose();
@@ -31,8 +32,10 @@ export default function RegisterDialog({open, onClose, onConnection}){
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        await register(email);
-        onClose();
+        setError(null);
+        await register(email, password)
+            .then(onClose)
+            .catch(error => setError(error.toString()));
     }
 
     const inputsValid = !!email && !!password && password === passwordConfirm && email.length >=3 && email.includes('@');
@@ -109,10 +112,12 @@ export default function RegisterDialog({open, onClose, onConnection}){
                     <div className="mt-2">
                         Déjà inscrit ? <a href="#" onClick={onConnection}>Connexion</a>
                     </div>
+                    {error && <div className="mt-2 error">{error}</div>}
                 </DialogContent>
                 <DialogActions>
                     <LoadingButton
                         type="submit"
+                        variant="contained"
                         loading={logining}
                         loadingPosition="start"
                         startIcon={<LoginIcon/>}

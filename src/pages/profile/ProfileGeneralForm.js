@@ -30,7 +30,7 @@ export default function ProfileGeneralForm(){
                         variant="outlined"
                         margin="dense"
                         className="mr-2"
-                        value={newUser.lastName}
+                        value={newUser.lastName ?? ''}
                         onChange={(e) => setNewUser(prev => ({...prev, lastName: e.target.value}))}
                     />
                 </div>
@@ -38,7 +38,7 @@ export default function ProfileGeneralForm(){
                     label="Prénom"
                     variant="outlined"
                     margin="dense"
-                    value={newUser.firstName}
+                    value={newUser.firstName ?? ''}
                     onChange={(e) => setNewUser(prev => ({...prev, firstName: e.target.value}))}
                 />
             </div>
