@@ -2,19 +2,21 @@ import './App.css';
 import {BrowserRouter} from "react-router-dom";
 import {Routes, Route} from "react-router";
 import Home from "./pages/Home";
-import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
 import UserContextProvider from "./context/userContext/UserContext";
+import Profile from "./pages/profile/Profile";
+import Layout from "./components/Layout/Layout";
 
 function App() {
   return (
       <BrowserRouter>
           <UserContextProvider>
-              <Header/>
-              <Routes>
-                  <Route path="/" element={<Home/>} />
-              </Routes>
-              <Footer/>
+              <Layout>
+                  <Routes>
+                      <Route path="/" element={<Home/>} />
+                      <Route path="/profile" element={<Profile/>} />
+                      <Route path="*" element={<>Not Found</>} />
+                  </Routes>
+              </Layout>
           </UserContextProvider>
       </BrowserRouter>
   );

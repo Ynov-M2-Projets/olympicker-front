@@ -34,7 +34,7 @@ export default function Header(){
     }
 
     return (
-        <AppBar position="static">
+        <AppBar position="sticky">
             <Toolbar>
                 <IconButton
                     size="large"
@@ -59,6 +59,7 @@ export default function Header(){
                             loadingPosition="start"
                             startIcon={<LoginIcon/>}
                             color="inherit"
+                            variant={logining ? 'outlined' : 'text'}
                             onClick={handleConnection}
                         >
                             {logining ? 'Connexion...' : 'Se connecter'}
