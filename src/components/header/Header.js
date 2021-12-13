@@ -8,19 +8,23 @@ import {useContext, useState} from "react";
 import {UserContext} from "../../context/userContext/UserContext";
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import LoginDialog from "../login/LoginDialog";
+import LoginDialog from "../auth/LoginDialog";
 import LoadingButton from '@mui/lab/LoadingButton';
+import RegisterDialog from "../auth/RegisterDialog";
 
 export default function Header(){
     const {user, logining, logout} = useContext(UserContext);
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(null);
 
     const handleConnection = () => {
-        setOpen(true);
+        setOpen('connection');
     };
+    const handleRegister = () => {
+        setOpen('register');
+    }
 
-    const handleCloseConnection = () => {
-        setOpen(false);
+    const handleCloseDialogs = () => {
+        setOpen(null);
     };
 
     return (
@@ -41,19 +45,34 @@ export default function Header(){
                 {user ? (
                     <Button startIcon={<LogoutIcon/>} onClick={logout} color="inherit">Se déconnecter</Button>
                 ) : (
-                    <LoadingButton
-                        loading={logining}
-                        disabled={logining}
-                        loadingPosition="start"
-                        startIcon={<LoginIcon/>}
-                        color="inherit"
-                        onClick={handleConnection}
-                    >
-                        {logining ? 'Connexion...' : 'Se connecter'}
-                    </LoadingButton>
+                    <>
+                        <LoadingButton
+                            loading={logining}
+                            disabled={logining}
+                            loadingPosition="start"
+                            startIcon={<LoginIcon/>}
+                            color="inherit"
+                            onClick={handleConnection}
+                        >
+                            {logining ? 'Connexion...' : 'Se connecter'}
+                        </LoadingButton>
+                        {!logining && (
+                            <Button
+                                color="inherit"
+                                onClick={handleRegister}
+                            >
+                                Inscription
+                            </Button>
+                        )}
+                    </>
                 )}
             </Toolbar>
-            {!user && <LoginDialog open={open} onClose={handleCloseConnection}/>}
+            {!user && (
+                <>
+                    <LoginDialog open={open === 'connection'} onClose={handleCloseDialogs} onRegister={() => setOpen('register')}/>
+                    <RegisterDialog open={open === 'register'} onClose={handleCloseDialogs} onConnection={() => setOpen('connection')}/>
+                </>
+            )}
         </AppBar>
     );
 }

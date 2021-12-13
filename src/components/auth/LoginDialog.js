@@ -19,7 +19,7 @@ const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function LoginDialog({open, onClose}){
+export default function LoginDialog({open, onClose, onRegister}){
     const {login, logining} = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -32,6 +32,8 @@ export default function LoginDialog({open, onClose}){
         await login(email, password);
         onClose();
     }
+
+    const inputsValid = !!email && !!password && email.length >=3 && email.includes('@');
 
     return (
         <Dialog
@@ -81,6 +83,9 @@ export default function LoginDialog({open, onClose}){
                         />
                     </FormControl>
                 </div>
+                <div className="mt-2">
+                    Nouveau ? <a href="#" onClick={onRegister}>Inscription</a>
+                </div>
             </DialogContent>
             <DialogActions>
                 <LoadingButton
@@ -88,7 +93,7 @@ export default function LoginDialog({open, onClose}){
                     loadingPosition="start"
                     startIcon={<LoginIcon/>}
                     onClick={handleLogin}
-                    disabled={!email || !password || logining}
+                    disabled={!inputsValid}
                 >Connexion</LoadingButton>
                 <Button onClick={handleClose}>Annuler</Button>
             </DialogActions>
