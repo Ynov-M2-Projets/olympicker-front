@@ -11,10 +11,12 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import LoginDialog from "../auth/LoginDialog";
 import LoadingButton from '@mui/lab/LoadingButton';
 import RegisterDialog from "../auth/RegisterDialog";
+import MenuDrawer from "../menuDrawer/MenuDrawer";
 
 export default function Header(){
     const {user, logining, logout} = useContext(UserContext);
     const [open, setOpen] = useState(null);
+    const [openMenuDrawer, setOpenMenuDrawer] = useState(false);
 
     const handleConnection = () => {
         setOpen('connection');
@@ -27,6 +29,10 @@ export default function Header(){
         setOpen(null);
     };
 
+    const toggleMenuDrawer = (value = null) => {
+        setOpenMenuDrawer(prev => ((value !== null) ? value : !prev));
+    }
+
     return (
         <AppBar position="static">
             <Toolbar>
@@ -36,6 +42,7 @@ export default function Header(){
                     color="inherit"
                     aria-label="menu"
                     sx={{ mr: 2 }}
+                    onClick={toggleMenuDrawer}
                 >
                     <MenuIcon />
                 </IconButton>
@@ -73,6 +80,7 @@ export default function Header(){
                     <RegisterDialog open={open === 'register'} onClose={handleCloseDialogs} onConnection={() => setOpen('connection')}/>
                 </>
             )}
+            <MenuDrawer open={openMenuDrawer} toggleCallback={toggleMenuDrawer}/>
         </AppBar>
     );
 }

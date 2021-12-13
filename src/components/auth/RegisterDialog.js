@@ -29,7 +29,8 @@ export default function RegisterDialog({open, onClose, onConnection}){
         onClose();
     }
 
-    const handleRegister = async () => {
+    const handleRegister = async (e) => {
+        e.preventDefault();
         await register(email);
         onClose();
     }
@@ -44,79 +45,81 @@ export default function RegisterDialog({open, onClose, onConnection}){
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle className="text-center">Inscription</DialogTitle>
-            <DialogContent>
-                <div className="d-block">
-                    <FormControl variant="standard">
-                        <InputLabel htmlFor="email-login">
-                            Adresse email
-                        </InputLabel>
-                        <Input
-                            id="email-login"
-                            type="email"
-                            value={email}
-                            onChange={(e) => {setEmail(e.target.value)}}
-                            fullWidth
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <AccountCircle />
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                </div>
-                <div className="d-block mt-2">
-                    <FormControl variant="standard">
-                        <InputLabel htmlFor="password-login">
-                            Mot de passe
-                        </InputLabel>
-                        <Input
-                            id="password-login"
-                            type="password"
-                            value={password}
-                            onChange={(e) => {setPassword(e.target.value)}}
-                            fullWidth
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <VpnKeyIcon />
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                </div>
-                <div className="d-block mt-2">
-                    <FormControl variant="standard">
-                        <InputLabel htmlFor="password-confirm-login">
-                            Confirmez le mot de passe
-                        </InputLabel>
-                        <Input
-                            id="password-confirm-login"
-                            type="password"
-                            value={passwordConfirm}
-                            onChange={(e) => {setPasswordConfirm(e.target.value)}}
-                            fullWidth
-                            startAdornment={
-                                <InputAdornment position="start">
-                                    <VpnKeyIcon />
-                                </InputAdornment>
-                            }
-                        />
-                    </FormControl>
-                </div>
-                <div className="mt-2">
-                    Déjà inscrit ? <a href="#" onClick={onConnection}>Connexion</a>
-                </div>
-            </DialogContent>
-            <DialogActions>
-                <LoadingButton
-                    loading={logining}
-                    loadingPosition="start"
-                    startIcon={<LoginIcon/>}
-                    onClick={handleRegister}
-                    disabled={!inputsValid}
-                >Inscription</LoadingButton>
-                <Button onClick={handleClose}>Annuler</Button>
-            </DialogActions>
+            <form onSubmit={handleRegister}>
+                <DialogTitle className="text-center">Inscription</DialogTitle>
+                <DialogContent>
+                    <div className="d-block">
+                        <FormControl variant="standard">
+                            <InputLabel htmlFor="email-login">
+                                Adresse email
+                            </InputLabel>
+                            <Input
+                                id="email-login"
+                                type="email"
+                                value={email}
+                                onChange={(e) => {setEmail(e.target.value)}}
+                                fullWidth
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <AccountCircle />
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    </div>
+                    <div className="d-block mt-2">
+                        <FormControl variant="standard">
+                            <InputLabel htmlFor="password-login">
+                                Mot de passe
+                            </InputLabel>
+                            <Input
+                                id="password-login"
+                                type="password"
+                                value={password}
+                                onChange={(e) => {setPassword(e.target.value)}}
+                                fullWidth
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <VpnKeyIcon />
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    </div>
+                    <div className="d-block mt-2">
+                        <FormControl variant="standard">
+                            <InputLabel htmlFor="password-confirm-login">
+                                Confirmez le mot de passe
+                            </InputLabel>
+                            <Input
+                                id="password-confirm-login"
+                                type="password"
+                                value={passwordConfirm}
+                                onChange={(e) => {setPasswordConfirm(e.target.value)}}
+                                fullWidth
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <VpnKeyIcon />
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    </div>
+                    <div className="mt-2">
+                        Déjà inscrit ? <a href="#" onClick={onConnection}>Connexion</a>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    <LoadingButton
+                        type="submit"
+                        loading={logining}
+                        loadingPosition="start"
+                        startIcon={<LoginIcon/>}
+                        disabled={!inputsValid}
+                    >Inscription</LoadingButton>
+                    <Button onClick={handleClose}>Annuler</Button>
+                </DialogActions>
+            </form>
         </Dialog>
     );
 }
