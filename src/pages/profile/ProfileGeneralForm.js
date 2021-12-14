@@ -23,6 +23,7 @@ export default function ProfileGeneralForm(){
                 label="Email"
                 variant="outlined"
                 margin="dense"
+                style={{width: '20rem'}}
                 value={newUser.email}
                 onChange={(e) => setNewUser(prev => ({...prev, email: e.target.value}))}
             />
