@@ -1,21 +1,17 @@
 import React, { createContext, useEffect, useState } from "react";
-import Card from "../../components/card/Card";
-import { Container, Row, Column } from "./HomeStyles";
+import { Container, Row, Column } from "./EventsStyles";
 import { axios } from "../../utils/axios-client";
+import Card from "../../components/card/Card";
 
-export const UserContext = createContext(undefined);
-
-const Home = () => {
+const Events = () => {
   const [card, setCard] = useState([]);
 
   const loadList = () => {
-    //TODO affiché que les 8 premier event 
     axios
       .get("/events")
       .then((result) => {
-        console.log(result.data.content);
         const options = [];
-        result.data.content.forEach((element) => {
+        result.data.forEach((element) => {
           options.push(
             <Column>
               <Card
@@ -44,7 +40,7 @@ const Home = () => {
           fontSize: "3 rem",
         }}
       >
-        Découvrir l'univers du sport
+        List des événements
       </h1>
       <Container>
         <Row>{card}</Row>
@@ -52,4 +48,4 @@ const Home = () => {
     </div>
   );
 };
-export default Home;
+export default Events;
