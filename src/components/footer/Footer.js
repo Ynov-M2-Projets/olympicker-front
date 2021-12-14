@@ -1,11 +1,11 @@
 import React from "react";
 import {
-Box,
-Container,
-Row,
-Column,
-FooterLink,
-Heading,
+  Box,
+  Container,
+  Row,
+  Column,
+  FooterLink,
+  Heading,
 } from "./FooterStyles";
 import FacebookIcon from '@mui/icons-material/Facebook'
 import TwitterIcon from '@mui/icons-material/Twitter';
