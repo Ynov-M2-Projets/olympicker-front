@@ -31,8 +31,10 @@ export default function LoginDialog({open, onClose, onRegister}){
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        await login(email, password).catch(error => {});
-        onClose();
+        setError(null);
+        await login(email, password)
+            .then(onClose)
+            .catch(error => {setError(error.toString())});
     }
 
     const inputsValid = !!email && !!password && email.length >=3 && email.includes('@');
@@ -48,8 +50,8 @@ export default function LoginDialog({open, onClose, onRegister}){
             <form onSubmit={handleLogin}>
                 <DialogTitle className="text-center">Connexion</DialogTitle>
                 <DialogContent>
-                    <div className="d-block">
-                        <FormControl variant="standard">
+                    <div className="d-block w-full">
+                        <FormControl variant="standard" fullWidth>
                             <InputLabel htmlFor="email-login">
                                 Adresse email
                             </InputLabel>
@@ -68,8 +70,8 @@ export default function LoginDialog({open, onClose, onRegister}){
                             />
                         </FormControl>
                     </div>
-                    <div className="d-block mt-2">
-                        <FormControl variant="standard">
+                    <div className="d-block mt-2 w-full">
+                        <FormControl variant="standard" fullWidth>
                             <InputLabel htmlFor="password-login">
                                 Mot de passe
                             </InputLabel>
@@ -90,9 +92,11 @@ export default function LoginDialog({open, onClose, onRegister}){
                     <div className="mt-2">
                         Nouveau ? <a href="#" onClick={onRegister}>Inscription</a>
                     </div>
+                    {error && <div className="mt-2 error">{error}</div>}
                 </DialogContent>
                 <DialogActions>
                     <LoadingButton
+                        variant="contained"
                         type="submit"
                         loading={logining}
                         loadingPosition="start"

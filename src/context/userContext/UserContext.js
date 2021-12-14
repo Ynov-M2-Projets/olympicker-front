@@ -7,29 +7,20 @@ export const UserContext = createContext(undefined);
 export default function UserContextProvider({children}){
     const [user, setUser] = useState(null);
     const [logining, setLogining] = useState(false);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const token = getToken();
         if(token){
+            setLogining(true);
             axios.get('/auth/me',{...axiosHeaders}).then(result => {
-                console.log(result);
-            }).catch(console.error)
+                setUser(result.data);
+            }).catch(console.error).finally(()=> setLogining(false))
         }
     },[])
 
     const login = async (email, password) => {
         setLogining(true);
-        setError(null);
-        return axios
-            .post('/auth/access_token', {email, password})
-            .then((result) => {
-                const {data} = result;
-                console.log(result);
-                storeToken(data.token);
-                setUser(data.user);
-            })
-            .finally(() => setLogining(false))
+        return log('/auth/access_token', email, password);
     };
 
     const logout = () => {
@@ -39,11 +30,19 @@ export default function UserContextProvider({children}){
 
     const register = async (email, password) => {
         setLogining(true);
-        await setTimeout(() => {
-            setUser({email});
-            setLogining(false);
-        }, 2000);
+       return log('/auth/register', email, password);
     };
+
+    const log = (url, email, password) => {
+        return axios
+            .post(url, {email, password})
+            .then((result) => {
+                const {data} = result;
+                storeToken(data.token);
+                setUser(data.user);
+            })
+            .finally(() => setLogining(false))
+    }
 
     return (
         <UserContext.Provider value={{user, login, logout, register, logining}}>
