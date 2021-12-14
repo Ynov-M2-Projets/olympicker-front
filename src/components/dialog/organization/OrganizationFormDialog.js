@@ -6,21 +6,32 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from '@mui/icons-material/Add';
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
 import {axios, axiosHeaders} from "../../../utils/axios-client";
 
-export default function NewOrganizationDialog({open, onClose, onActionEnd}){
+export default function OrganizationFormDialog({open, organization = null, onClose, onActionEnd}){
     const [error, setError] = useState(null);
-    const [creating, setCreating] = useState(null);
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
+    const [submitting, setSubmitting] = useState(null);
+    const [name, setName] = useState(organization ? organization.name ?? '' : '');
+    const [description, setDescription] = useState(organization ? organization.description ?? '' : '');
+
+    useEffect(() => {
+        if(organization){
+            setName(organization.name ?? '');
+            setDescription(organization.description ?? '');
+        }
+    }, [organization])
 
     const handleCreation = (e) => {
         e.preventDefault();
         setError(null);
-        setCreating(true);
-        axios.post(`/orgs`,{name,description},{...axiosHeaders})
+        setSubmitting(true);
+        let request = axios.post(`/orgs`,{name,description},{...axiosHeaders});
+        if(organization){
+            request = axios.put(`/orgs/${organization.id}`,{name,description},{...axiosHeaders})
+        }
+        request
             .then(result => {
                 onActionEnd(result.data);
                 resetForm();
@@ -29,7 +40,7 @@ export default function NewOrganizationDialog({open, onClose, onActionEnd}){
             .catch(error => {
                 console.error(error);
                 setError(e.toString());
-            }).finally(() => setCreating(false))
+            }).finally(() => setSubmitting(false))
     }
 
     const resetForm = () => {
@@ -78,7 +89,7 @@ export default function NewOrganizationDialog({open, onClose, onActionEnd}){
                     <LoadingButton
                         variant="contained"
                         type="submit"
-                        loading={creating}
+                        loading={submitting}
                         loadingPosition="start"
                         startIcon={<AddIcon/>}
                         disabled={!isFormValid}

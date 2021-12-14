@@ -10,7 +10,7 @@ import {UserContext} from "../../context/userContext/UserContext";
 import IconButton from "@mui/material/IconButton";
 import AddIcon from '@mui/icons-material/Add';
 import Tooltip from "@mui/material/Tooltip";
-import NewOrganizationDialog from "../../components/dialog/organization/NewOrganizationDialog";
+import OrganizationFormDialog from "../../components/dialog/organization/OrganizationFormDialog";
 import TableContainer from "@mui/material/TableContainer";
 import Table from "@mui/material/Table";
 import TableHead from "@mui/material/TableHead";
@@ -59,6 +59,14 @@ export default function LoggedUserOrganizations(){
         </div>
     );
 
+    const handleNewOrganization = (newOrganization) => {
+        setOrganizations(prev => ([...prev, newOrganization]));
+    }
+
+    const handleEditOrganization = (oneOrganization) => {
+        setOrganizations(prev => prev.map(org => (org.id === oneOrganization.id ? oneOrganization : org)));
+    }
+
     return (
         <PageContainer title={title} loading={fetching}>
             <Tabs value={tab} onChange={handleChange} aria-label="icon label tabs">
@@ -71,12 +79,10 @@ export default function LoggedUserOrganizations(){
             <TabPanel value={tab} index={1}>
                 <OrganizationTable organizations={organizations.filter(org => org.owner.id !== user.id)}/>
             </TabPanel>
-            <NewOrganizationDialog
+            <OrganizationFormDialog
                 open={openCreationDialog}
                 onClose={() => setOpenCreationDialog(false)}
-                onActionEnd={(newOrganization) => {
-                    setOrganizations(prev => ([...prev, newOrganization]));
-                }}
+                onActionEnd={handleNewOrganization}
             />
         </PageContainer>
     );
