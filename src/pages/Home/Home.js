@@ -3,8 +3,6 @@ import Card from "../../components/card/Card";
 import { Container, Row, Column } from "./HomeStyles";
 import { axios } from "../../utils/axios-client";
 
-export const UserContext = createContext(undefined);
-
 const Home = () => {
   const [card, setCard] = useState([]);
 

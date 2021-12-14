@@ -8,9 +8,9 @@ import {useContext, useState} from "react";
 import {UserContext} from "../../context/userContext/UserContext";
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import LoginDialog from "../auth/LoginDialog";
+import LoginDialog from "../dialog/auth/LoginDialog";
 import LoadingButton from '@mui/lab/LoadingButton';
-import RegisterDialog from "../auth/RegisterDialog";
+import RegisterDialog from "../dialog/auth/RegisterDialog";
 import MenuDrawer from "../menuDrawer/MenuDrawer";
 
 export default function Header(){

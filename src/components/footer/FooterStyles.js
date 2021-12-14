@@ -5,6 +5,7 @@ padding-top: 50px;
 background: black;
 bottom: 0;
 width: 100%;
+margin-top: auto;
 
 
 @media (max-width: 1000px) {

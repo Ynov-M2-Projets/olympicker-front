@@ -13,12 +13,18 @@ import SportsHandballIcon from '@mui/icons-material/SportsHandball';
 import {UserContext} from "../../context/userContext/UserContext";
 import { Link } from "react-router-dom";
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 const mainLinks = [
     {text: 'Accueil', link: '/', icon: <HomeIcon/>},
     {text: 'Sports', link: '/sports', icon: <SportsHandballIcon/>},
     {text: 'Tournois', link: '/tournaments', icon: <AccountTreeIcon/>},
 ];
+
+const subLinks = [
+    {text: 'Profil', link: '/profile', icon: <AccountCircleIcon/>},
+    {text: 'Mes organisations', link: '/my-organizations', icon: <GroupsIcon/>},
+]
 
 export default function MenuDrawer({open, toggleCallback}){
     const {user, logout} = useContext(UserContext);
@@ -52,12 +58,12 @@ export default function MenuDrawer({open, toggleCallback}){
                     <>
                         <Divider />
                         <List>
-                            <ListItem button component={Link} to="/profile">
-                                <ListItemIcon>
-                                    <AccountCircleIcon/>
-                                </ListItemIcon>
-                                <ListItemText primary="Profil" />
-                            </ListItem>
+                            {subLinks.map(link => (
+                                <ListItem key={link.text} button component={Link} to={link.link}>
+                                    <ListItemIcon>{link.icon}</ListItemIcon>
+                                    <ListItemText primary={link.text} />
+                                </ListItem>
+                            ))}
                             <ListItem button onClick={logout}>
                                 <ListItemIcon>
                                     <LogoutIcon/>

@@ -6,6 +6,7 @@ import UserContextProvider from "./context/userContext/UserContext";
 import Profile from "./pages/profile/Profile";
 import Layout from "./components/Layout/Layout";
 import SnackbarContextProvider from "./context/snackbarContext/SnackbarContext";
+import LoggedUserOrganizations from "./pages/organizations/LoggedUserOrganizations";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
                       <Routes>
                           <Route path="/" element={<Home/>} />
                           <Route path="/profile" element={<Profile/>} />
+                          <Route path="/my-organizations" element={<LoggedUserOrganizations/>} />
                           <Route path="*" element={<>Not Found</>} />
                       </Routes>
                   </Layout>

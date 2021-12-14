@@ -1,5 +1,4 @@
-import {forwardRef, useContext, useState} from "react";
-import Slide from "@mui/material/Slide";
+import {useContext, useState} from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import FormControl from "@mui/material/FormControl";
@@ -13,11 +12,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import LoginIcon from "@mui/icons-material/Login";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import {UserContext} from "../../context/userContext/UserContext";
-
-const Transition = forwardRef(function Transition(props, ref) {
-    return <Slide direction="down" ref={ref} {...props} />;
-});
+import {UserContext} from "../../../context/userContext/UserContext";
+import {Transition} from "../Transition";
 
 export default function RegisterDialog({open, onClose, onConnection}){
     const {register, logining} = useContext(UserContext);
@@ -25,10 +21,6 @@ export default function RegisterDialog({open, onClose, onConnection}){
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
     const [error, setError] = useState(null);
-
-    const handleClose = () => {
-        onClose();
-    }
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -45,7 +37,7 @@ export default function RegisterDialog({open, onClose, onConnection}){
             open={open}
             TransitionComponent={Transition}
             keepMounted
-            onClose={handleClose}
+            onClose={onClose}
             aria-describedby="alert-dialog-slide-description"
         >
             <form onSubmit={handleRegister}>
@@ -123,7 +115,7 @@ export default function RegisterDialog({open, onClose, onConnection}){
                         startIcon={<LoginIcon/>}
                         disabled={!inputsValid}
                     >Inscription</LoadingButton>
-                    <Button onClick={handleClose}>Annuler</Button>
+                    <Button onClick={onClose}>Annuler</Button>
                 </DialogActions>
             </form>
         </Dialog>
