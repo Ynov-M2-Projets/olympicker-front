@@ -17,7 +17,7 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 const mainLinks = [
     {text: 'Accueil', link: '/', icon: <HomeIcon/>},
     {text: 'Sports', link: '/sports', icon: <SportsHandballIcon/>},
-    {text: 'Tournois', link: '/tournaments', icon: <AccountTreeIcon/>},
+    {text: 'Evénements', link: '/events', icon: <AccountTreeIcon/>},
 ];
 
 export default function MenuDrawer({open, toggleCallback}){

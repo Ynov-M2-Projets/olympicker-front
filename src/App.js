@@ -7,6 +7,7 @@ import Profile from "./pages/profile/Profile";
 import Layout from "./components/Layout/Layout";
 import Sports from "./pages/Sports/Sports";
 import SnackbarContextProvider from "./context/snackbarContext/SnackbarContext";
+import Events from './pages/Events/Events';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
                           <Route path="/" element={<Home/>} />
                           <Route path="/profile" element={<Profile/>} />
                           <Route path="/sports" element={<Sports/>} />
+                          <Route path="/events" element={<Events/>} />
                           <Route path="*" element={<>Not Found</>} />
                       </Routes>
                   </Layout>
