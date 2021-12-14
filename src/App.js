@@ -1,7 +1,7 @@
 import './App.css';
 import {BrowserRouter} from "react-router-dom";
 import {Routes, Route} from "react-router";
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 import UserContextProvider from "./context/userContext/UserContext";
 import Profile from "./pages/profile/Profile";
 import Layout from "./components/Layout/Layout";
