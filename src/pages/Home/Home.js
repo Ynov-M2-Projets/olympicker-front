@@ -12,8 +12,9 @@ const Home = () => {
     axios
       .get("/events")
       .then((result) => {
+        console.log(result.data.content);
         const options = [];
-        result.data.forEach((element) => {
+        result.data.content.forEach((element) => {
           options.push(
             <Column>
               <Card

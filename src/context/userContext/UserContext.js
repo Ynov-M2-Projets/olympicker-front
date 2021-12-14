@@ -45,7 +45,7 @@ export default function UserContextProvider({children}){
     }
 
     return (
-        <UserContext.Provider value={{user, login, logout, register, logining}}>
+        <UserContext.Provider value={{user, setUser, login, logout, register, logining}}>
             {children}
         </UserContext.Provider>
     );

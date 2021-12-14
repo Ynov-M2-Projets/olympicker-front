@@ -8,7 +8,7 @@ const Sports = () => {
 
   const loadList = () => {
     axios
-      .get("/events")
+      .get("/sports")
       .then((result) => {
         const options = [];
         result.data.forEach((element) => {
@@ -31,6 +31,7 @@ const Sports = () => {
   useEffect(() => {
     loadList();
   }, []);
+
   return (
     <div style={{marginBottom: "3%"}}>
       <h1
