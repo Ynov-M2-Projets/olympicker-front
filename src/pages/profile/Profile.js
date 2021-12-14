@@ -17,7 +17,7 @@ export default function Profile(){
         setTab(newValue);
     };
 
-    if(logining) return <>Chargement...</>;
+    if(logining) return <>Chargement du profil...</>;
     if(!user) return <></>;
 
     return (

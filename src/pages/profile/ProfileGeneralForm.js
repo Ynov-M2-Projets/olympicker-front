@@ -3,15 +3,18 @@ import {useContext, useState} from "react";
 import {UserContext} from "../../context/userContext/UserContext";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from '@mui/icons-material/Save';
+import {SnackbarContext} from "../../context/snackbarContext/SnackbarContext";
 
 export default function ProfileGeneralForm(){
     const {user} = useContext(UserContext);
+    const {showSnackbar} = useContext(SnackbarContext);
     const [newUser, setNewUser] = useState(user);
     const [submitting, setSubmitting] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitting(true);
+        showSnackbar('Modifications enregistrées');
     };
 
     return (
@@ -44,6 +47,7 @@ export default function ProfileGeneralForm(){
             </div>
             <div className="mt-2">
                 <LoadingButton
+                    type="submit"
                     variant="contained"
                     loadingPosition="start"
                     loading={submitting}
