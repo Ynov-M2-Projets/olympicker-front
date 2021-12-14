@@ -4,9 +4,10 @@ import {UserContext} from "../../context/userContext/UserContext";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from '@mui/icons-material/Save';
 import {SnackbarContext} from "../../context/snackbarContext/SnackbarContext";
+import {axios, axiosHeaders} from "../../utils/axios-client";
 
 export default function ProfileGeneralForm(){
-    const {user} = useContext(UserContext);
+    const {user, setUser} = useContext(UserContext);
     const {showSnackbar} = useContext(SnackbarContext);
     const [newUser, setNewUser] = useState(user);
     const [submitting, setSubmitting] = useState(false);
@@ -14,8 +15,17 @@ export default function ProfileGeneralForm(){
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitting(true);
-        showSnackbar('Modifications enregistrées');
+        axios.put('/users',newUser,{...axiosHeaders})
+            .then(result => {
+                console.log(result);
+                setUser(result.data);
+                showSnackbar('Modifications enregistrées');
+            })
+            .catch(error => showSnackbar(error.toString(), 'error'))
+            .finally(() => setSubmitting(false))
     };
+
+    const formNotValid = !newUser.email || !newUser.lastName || !newUser.firstName;
 
     return (
         <form onSubmit={handleSubmit}>
@@ -23,7 +33,6 @@ export default function ProfileGeneralForm(){
                 label="Email"
                 variant="outlined"
                 margin="dense"
-                style={{width: '20rem'}}
                 value={newUser.email}
                 onChange={(e) => setNewUser(prev => ({...prev, email: e.target.value}))}
             />
@@ -53,6 +62,7 @@ export default function ProfileGeneralForm(){
                     loadingPosition="start"
                     loading={submitting}
                     startIcon={<SaveIcon/>}
+                    disabled={formNotValid}
                 >
                     Enregistrer
                 </LoadingButton>

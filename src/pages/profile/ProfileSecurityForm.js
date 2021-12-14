@@ -3,6 +3,7 @@ import {SnackbarContext} from "../../context/snackbarContext/SnackbarContext";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
+import {axios, axiosHeaders} from "../../utils/axios-client";
 
 export default function ProfileSecurityForm() {
     const {showSnackbar} = useContext(SnackbarContext);
@@ -14,7 +15,16 @@ export default function ProfileSecurityForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitting(true);
-        showSnackbar('Modifications enregistrées');
+        axios.put('/users/change_password', {newPassword, oldPassword},{...axiosHeaders})
+            .then(() => { showSnackbar('Mot de passe changé'); resetForm(); })
+            .catch(error => { showSnackbar(error.toString(), 'error') })
+            .finally(() => setSubmitting(false))
+    };
+
+    const resetForm = () => {
+        setOldPassword('');
+        setNewPassword('');
+        setNewPasswordConfirm('');
     };
 
     const formValid = !!oldPassword && !!newPassword && !!newPasswordConfirm && newPassword === newPasswordConfirm;
@@ -28,7 +38,6 @@ export default function ProfileSecurityForm() {
                     variant="outlined"
                     margin="dense"
                     required
-                    style={{width: '20rem'}}
                     value={oldPassword}
                     onChange={(e) => setOldPassword(e.target.value)}
                 />
@@ -40,7 +49,6 @@ export default function ProfileSecurityForm() {
                     variant="outlined"
                     margin="dense"
                     required
-                    style={{width: '20rem'}}
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                 />
@@ -52,7 +60,6 @@ export default function ProfileSecurityForm() {
                     variant="outlined"
                     margin="dense"
                     required
-                    style={{width: '20rem'}}
                     value={newPasswordConfirm}
                     onChange={(e) => setNewPasswordConfirm(e.target.value)}
                 />

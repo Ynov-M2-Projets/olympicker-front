@@ -7,6 +7,10 @@ Column,
 FooterLink,
 Heading,
 } from "./FooterStyles";
+import FacebookIcon from '@mui/icons-material/Facebook'
+import TwitterIcon from '@mui/icons-material/Twitter';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 const Footer = () => {
 return (
@@ -21,49 +25,27 @@ return (
 		<Row>
             <Column>
                 <Heading>Services</Heading>
-                <FooterLink href="#">Writing</FooterLink>
-                <FooterLink href="#">Internships</FooterLink>
-                <FooterLink href="#">Coding</FooterLink>
-                <FooterLink href="#">Teaching</FooterLink>
+                <FooterLink href="#">Compete</FooterLink>
             </Column>
             <Column>
                 <Heading>Contact Us</Heading>
-                <FooterLink href="#">Uttar Pradesh</FooterLink>
-                <FooterLink href="#">Ahemdabad</FooterLink>
-                <FooterLink href="#">Indore</FooterLink>
-                <FooterLink href="#">Mumbai</FooterLink>
+                <FooterLink href="#">France</FooterLink>
             </Column>
-            <Column>
+            <div>
                 <Heading>Social Media</Heading>
                 <FooterLink href="#">
-                <i className="fab fa-facebook-f">
-                    <span style={{ marginLeft: "10px" }}>
-                    Facebook
-                    </span>
-                </i>
+                    <FacebookIcon/>
                 </FooterLink>
                 <FooterLink href="#">
-                <i className="fab fa-instagram">
-                    <span style={{ marginLeft: "10px" }}>
-                    Instagram
-                    </span>
-                </i>
+                    <InstagramIcon/>
                 </FooterLink>
                 <FooterLink href="#">
-                <i className="fab fa-twitter">
-                    <span style={{ marginLeft: "10px" }}>
-                    Twitter
-                    </span>
-                </i>
+                    <TwitterIcon/>
                 </FooterLink>
                 <FooterLink href="#">
-                <i className="fab fa-youtube">
-                    <span style={{ marginLeft: "10px" }}>
-                    Youtube
-                    </span>
-                </i>
+                    <YouTubeIcon/>
                 </FooterLink>
-            </Column>
+            </div>
 		</Row>
 	</Container>
 	</Box>
