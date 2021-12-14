@@ -44,8 +44,12 @@ export default function UserContextProvider({children}){
             .finally(() => setLogining(false))
     }
 
+    const updateUser = (data) => {
+        setUser(prev => ({...prev, ...data}));
+    }
+
     return (
-        <UserContext.Provider value={{user, setUser, login, logout, register, logining}}>
+        <UserContext.Provider value={{user, updateUser, login, logout, register, logining}}>
             {children}
         </UserContext.Provider>
     );

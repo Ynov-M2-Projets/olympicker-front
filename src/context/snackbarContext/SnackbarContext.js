@@ -1,4 +1,4 @@
-import {createContext, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import ProgressLinear from "../../components/progress/ProgressLinear";
@@ -7,9 +7,22 @@ export const SnackbarContext = createContext(undefined);
 
 export default function SnackbarContextProvider({children}){
     const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState('Succès !');
+    const [snackPack, setSnackPack] = useState([]);
+    const [messageInfo, setMessage] = useState(undefined);
     const [type, setType] = useState('success');
     const timeout = 3000;
+
+    useEffect(() => {
+        if (snackPack.length && !messageInfo) {
+            // Set a new snack when we don't have an active one
+            setMessage({ ...snackPack[0] });
+            setSnackPack(prev => prev.slice(1));
+            setOpen(true);
+        } else if (snackPack.length && messageInfo && open) {
+            // Close an active snack when a new one is added
+            setOpen(false);
+        }
+    }, [snackPack, messageInfo, open]);
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -18,18 +31,27 @@ export default function SnackbarContextProvider({children}){
         setOpen(false);
     };
 
+    const handleExited = () => {
+        setMessage(undefined);
+    };
+
     const showSnackbar = (newMessage = '', newType = 'success') => {
-        setMessage(newMessage);
+        setSnackPack((prev) => [...prev, { message: newMessage, key: new Date().getTime() }]);
         setType(newType);
-        setOpen(true);
     }
 
     return (
         <SnackbarContext.Provider value={{showSnackbar}}>
             {children}
-            <Snackbar open={open} autoHideDuration={timeout + 100} onClose={handleClose}>
+            <Snackbar
+                key={messageInfo ? messageInfo.key : undefined}
+                TransitionProps={{ onExited: handleExited }}
+                open={open}
+                autoHideDuration={timeout + 100}
+                onClose={handleClose}
+            >
                 <Alert onClose={handleClose} severity={type} sx={{ width: '100%' }}>
-                    {message}
+                    {messageInfo ? messageInfo.message : undefined}
                     <ProgressLinear timeout={timeout}/>
                 </Alert>
             </Snackbar>

@@ -7,7 +7,7 @@ import {SnackbarContext} from "../../context/snackbarContext/SnackbarContext";
 import {axios, axiosHeaders} from "../../utils/axios-client";
 
 export default function ProfileGeneralForm(){
-    const {user, setUser} = useContext(UserContext);
+    const {user, updateUser} = useContext(UserContext);
     const {showSnackbar} = useContext(SnackbarContext);
     const [newUser, setNewUser] = useState(user);
     const [submitting, setSubmitting] = useState(false);
@@ -17,8 +17,7 @@ export default function ProfileGeneralForm(){
         setSubmitting(true);
         axios.put('/users',newUser,{...axiosHeaders})
             .then(result => {
-                console.log(result);
-                setUser(result.data);
+                updateUser(result.data);
                 showSnackbar('Modifications enregistrées');
             })
             .catch(error => showSnackbar(error.toString(), 'error'))
