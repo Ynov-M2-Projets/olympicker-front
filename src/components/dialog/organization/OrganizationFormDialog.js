@@ -26,7 +26,7 @@ export default function OrganizationFormDialog({open, organization = null, onClo
         }
     }, [organization])
 
-    const handleCreation = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
         setError(null);
         setSubmitting(true);
@@ -60,11 +60,10 @@ export default function OrganizationFormDialog({open, organization = null, onClo
             open={open}
             keepMounted
             onClose={onClose}
-            aria-describedby="alert-dialog-slide-description"
             fullWidth
             maxWidth="sm"
         >
-            <form onSubmit={handleCreation}>
+            <form onSubmit={handleSubmit}>
                 <DialogTitle className="text-center">{organization ? "Modifier l'organisation" : 'Nouvelle organisation'}</DialogTitle>
                 <DialogContent>
                     <div className="d-block w-full">
