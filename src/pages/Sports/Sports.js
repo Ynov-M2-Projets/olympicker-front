@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from "react";
-import Card from "../../components/card/Card";
-import { Container, Row, Column } from "./HomeStyles";
+import React, { createContext, useEffect, useState } from "react";
+import { Container, Row, Column } from "./SportsStyles";
 import { axios } from "../../utils/axios-client";
+import Card from "../../components/card/Card";
 
-const Home = () => {
+const Sports = () => {
   const [card, setCard] = useState([]);
 
   const loadList = () => {
-    //TODO affiché que les 8 premier event 
     axios
-      .get("/events")
+      .get("/sports")
       .then((result) => {
-        console.log(result.data.content);
         const options = [];
         result.data.content.forEach((element) => {
           options.push(
@@ -21,12 +19,11 @@ const Home = () => {
                 text={element.description}
                 imgTitle="green iguana"
                 imgPath="/logo192.png"
-              />
+              ></Card>
             </Column>
           );
         });
-
-        setCard(options.reverse().slice(0,8));
+        setCard(options);
       })
       .catch(console.error);
   };
@@ -43,7 +40,7 @@ const Home = () => {
           fontSize: "3 rem",
         }}
       >
-        Découvrir l'univers du sport
+        List des sports
       </h1>
       <Container>
         <Row>{card}</Row>
@@ -51,4 +48,4 @@ const Home = () => {
     </div>
   );
 };
-export default Home;
+export default Sports;

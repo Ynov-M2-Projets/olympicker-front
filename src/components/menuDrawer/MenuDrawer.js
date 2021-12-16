@@ -18,7 +18,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 const mainLinks = [
     {text: 'Accueil', link: '/', icon: <HomeIcon/>},
     {text: 'Sports', link: '/sports', icon: <SportsHandballIcon/>},
-    {text: 'Tournois', link: '/tournaments', icon: <AccountTreeIcon/>},
+    {text: 'Evénements', link: '/events', icon: <AccountTreeIcon/>},
 ];
 
 const subLinks = [
