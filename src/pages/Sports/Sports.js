@@ -11,7 +11,7 @@ const Sports = () => {
       .get("/sports")
       .then((result) => {
         const options = [];
-        result.data.forEach((element) => {
+        result.data.content.forEach((element) => {
           options.push(
             <Column>
               <Card
