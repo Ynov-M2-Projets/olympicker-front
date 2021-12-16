@@ -1,64 +1,57 @@
-import {forwardRef, useContext, useState} from "react";
-import Slide from "@mui/material/Slide";
+import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import {useContext, useState} from "react";
+import {UserContext} from "../../../context/userContext/UserContext";
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import {AccountCircle} from "@mui/icons-material";
-import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import DialogActions from "@mui/material/DialogActions";
 import LoadingButton from "@mui/lab/LoadingButton";
 import LoginIcon from "@mui/icons-material/Login";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import {UserContext} from "../../context/userContext/UserContext";
+import {Transition} from "../Transition";
 
-const Transition = forwardRef(function Transition(props, ref) {
-    return <Slide direction="down" ref={ref} {...props} />;
-});
-
-export default function RegisterDialog({open, onClose, onConnection}){
-    const {register, logining} = useContext(UserContext);
+export default function LoginDialog({open, onClose, onRegister}){
+    const {login, logining} = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordConfirm, setPasswordConfirm] = useState('');
     const [error, setError] = useState(null);
 
-    const handleClose = () => {
-        onClose();
-    }
-
-    const handleRegister = async (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         setError(null);
-        await register(email, password)
+        await login(email, password)
             .then(onClose)
-            .catch(error => setError(error.toString()));
+            .catch(error => {setError(error.toString())});
     }
 
-    const inputsValid = !!email && !!password && password === passwordConfirm && email.length >=3 && email.includes('@');
+    const inputsValid = !!email && !!password && email.length >=3 && email.includes('@');
 
     return (
         <Dialog
             open={open}
             TransitionComponent={Transition}
             keepMounted
-            onClose={handleClose}
+            onClose={onClose}
             aria-describedby="alert-dialog-slide-description"
+            fullWidth
+            maxWidth="xs"
         >
-            <form onSubmit={handleRegister}>
-                <DialogTitle className="text-center">Inscription</DialogTitle>
+            <form onSubmit={handleLogin}>
+                <DialogTitle className="text-center">Connexion</DialogTitle>
                 <DialogContent>
-                    <div className="d-block">
-                        <FormControl variant="standard">
-                            <InputLabel htmlFor="email-register">
+                    <div className="d-block w-full">
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel htmlFor="email-login">
                                 Adresse email
                             </InputLabel>
                             <Input
                                 autoFocus
-                                id="email-register"
+                                id="email-login"
                                 type="email"
                                 value={email}
                                 onChange={(e) => {setEmail(e.target.value)}}
@@ -71,13 +64,13 @@ export default function RegisterDialog({open, onClose, onConnection}){
                             />
                         </FormControl>
                     </div>
-                    <div className="d-block mt-2">
-                        <FormControl variant="standard">
-                            <InputLabel htmlFor="password-register">
+                    <div className="d-block mt-2 w-full">
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel htmlFor="password-login">
                                 Mot de passe
                             </InputLabel>
                             <Input
-                                id="password-register"
+                                id="password-login"
                                 type="password"
                                 value={password}
                                 onChange={(e) => {setPassword(e.target.value)}}
@@ -90,40 +83,21 @@ export default function RegisterDialog({open, onClose, onConnection}){
                             />
                         </FormControl>
                     </div>
-                    <div className="d-block mt-2">
-                        <FormControl variant="standard">
-                            <InputLabel htmlFor="password-confirm-register">
-                                Confirmez le mot de passe
-                            </InputLabel>
-                            <Input
-                                id="password-confirm-register"
-                                type="password"
-                                value={passwordConfirm}
-                                onChange={(e) => {setPasswordConfirm(e.target.value)}}
-                                fullWidth
-                                startAdornment={
-                                    <InputAdornment position="start">
-                                        <VpnKeyIcon />
-                                    </InputAdornment>
-                                }
-                            />
-                        </FormControl>
-                    </div>
                     <div className="mt-2">
-                        Déjà inscrit ? <a href="#" onClick={onConnection}>Connexion</a>
+                        Nouveau ? <a href="#" onClick={onRegister}>Inscription</a>
                     </div>
                     {error && <div className="mt-2 error">{error}</div>}
                 </DialogContent>
                 <DialogActions>
                     <LoadingButton
-                        type="submit"
                         variant="contained"
+                        type="submit"
                         loading={logining}
                         loadingPosition="start"
                         startIcon={<LoginIcon/>}
                         disabled={!inputsValid}
-                    >Inscription</LoadingButton>
-                    <Button onClick={handleClose}>Annuler</Button>
+                    >Connexion</LoadingButton>
+                    <Button onClick={onClose}>Annuler</Button>
                 </DialogActions>
             </form>
         </Dialog>

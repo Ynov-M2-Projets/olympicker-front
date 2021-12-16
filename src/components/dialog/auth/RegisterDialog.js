@@ -1,63 +1,58 @@
-import Dialog from "@mui/material/Dialog";
+import {useContext, useState} from "react";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import Button from "@mui/material/Button";
-import {forwardRef, useContext, useState} from "react";
-import Slide from "@mui/material/Slide";
-import {UserContext} from "../../context/userContext/UserContext";
-import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import InputAdornment from "@mui/material/InputAdornment";
 import {AccountCircle} from "@mui/icons-material";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import DialogActions from "@mui/material/DialogActions";
 import LoadingButton from "@mui/lab/LoadingButton";
 import LoginIcon from "@mui/icons-material/Login";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import {UserContext} from "../../../context/userContext/UserContext";
+import {Transition} from "../Transition";
 
-const Transition = forwardRef(function Transition(props, ref) {
-    return <Slide direction="down" ref={ref} {...props} />;
-});
-
-export default function LoginDialog({open, onClose, onRegister}){
-    const {login, logining} = useContext(UserContext);
+export default function RegisterDialog({open, onClose, onConnection}){
+    const {register, logining} = useContext(UserContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
     const [error, setError] = useState(null);
 
-    const handleClose = () => {
-        onClose();
-    }
-
-    const handleLogin = async (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault();
         setError(null);
-        await login(email, password)
+        await register(email, password)
             .then(onClose)
-            .catch(error => {setError(error.toString())});
+            .catch(error => setError(error.toString()));
     }
 
-    const inputsValid = !!email && !!password && email.length >=3 && email.includes('@');
+    const inputsValid = !!email && !!password && password === passwordConfirm && email.length >=3 && email.includes('@');
 
     return (
         <Dialog
             open={open}
             TransitionComponent={Transition}
             keepMounted
-            onClose={handleClose}
+            onClose={onClose}
             aria-describedby="alert-dialog-slide-description"
+            fullWidth
+            maxWidth="xs"
         >
-            <form onSubmit={handleLogin}>
-                <DialogTitle className="text-center">Connexion</DialogTitle>
+            <form onSubmit={handleRegister}>
+                <DialogTitle className="text-center">Inscription</DialogTitle>
                 <DialogContent>
-                    <div className="d-block w-full">
+                    <div className="d-block">
                         <FormControl variant="standard" fullWidth>
-                            <InputLabel htmlFor="email-login">
+                            <InputLabel htmlFor="email-register">
                                 Adresse email
                             </InputLabel>
                             <Input
                                 autoFocus
-                                id="email-login"
+                                id="email-register"
                                 type="email"
                                 value={email}
                                 onChange={(e) => {setEmail(e.target.value)}}
@@ -70,13 +65,13 @@ export default function LoginDialog({open, onClose, onRegister}){
                             />
                         </FormControl>
                     </div>
-                    <div className="d-block mt-2 w-full">
+                    <div className="d-block mt-2">
                         <FormControl variant="standard" fullWidth>
-                            <InputLabel htmlFor="password-login">
+                            <InputLabel htmlFor="password-register">
                                 Mot de passe
                             </InputLabel>
                             <Input
-                                id="password-login"
+                                id="password-register"
                                 type="password"
                                 value={password}
                                 onChange={(e) => {setPassword(e.target.value)}}
@@ -89,21 +84,40 @@ export default function LoginDialog({open, onClose, onRegister}){
                             />
                         </FormControl>
                     </div>
+                    <div className="d-block mt-2">
+                        <FormControl variant="standard" fullWidth>
+                            <InputLabel htmlFor="password-confirm-register">
+                                Confirmez le mot de passe
+                            </InputLabel>
+                            <Input
+                                id="password-confirm-register"
+                                type="password"
+                                value={passwordConfirm}
+                                onChange={(e) => {setPasswordConfirm(e.target.value)}}
+                                fullWidth
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <VpnKeyIcon />
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                    </div>
                     <div className="mt-2">
-                        Nouveau ? <a href="#" onClick={onRegister}>Inscription</a>
+                        Déjà inscrit ? <a href="#" onClick={onConnection}>Connexion</a>
                     </div>
                     {error && <div className="mt-2 error">{error}</div>}
                 </DialogContent>
                 <DialogActions>
                     <LoadingButton
-                        variant="contained"
                         type="submit"
+                        variant="contained"
                         loading={logining}
                         loadingPosition="start"
                         startIcon={<LoginIcon/>}
                         disabled={!inputsValid}
-                    >Connexion</LoadingButton>
-                    <Button onClick={handleClose}>Annuler</Button>
+                    >Inscription</LoadingButton>
+                    <Button onClick={onClose}>Annuler</Button>
                 </DialogActions>
             </form>
         </Dialog>

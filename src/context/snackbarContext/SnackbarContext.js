@@ -8,14 +8,14 @@ export const SnackbarContext = createContext(undefined);
 export default function SnackbarContextProvider({children}){
     const [open, setOpen] = useState(false);
     const [snackPack, setSnackPack] = useState([]);
-    const [messageInfo, setMessage] = useState(undefined);
+    const [messageInfo, setMessageInfo] = useState(undefined);
     const [type, setType] = useState('success');
     const timeout = 3000;
 
     useEffect(() => {
         if (snackPack.length && !messageInfo) {
             // Set a new snack when we don't have an active one
-            setMessage({ ...snackPack[0] });
+            setMessageInfo({ ...snackPack[0] });
             setSnackPack(prev => prev.slice(1));
             setOpen(true);
         } else if (snackPack.length && messageInfo && open) {
@@ -32,7 +32,7 @@ export default function SnackbarContextProvider({children}){
     };
 
     const handleExited = () => {
-        setMessage(undefined);
+        setMessageInfo(undefined);
     };
 
     const showSnackbar = (newMessage = '', newType = 'success') => {
