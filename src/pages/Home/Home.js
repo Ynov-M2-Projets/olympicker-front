@@ -27,7 +27,8 @@ const Home = () => {
             </Column>
           );
         });
-        setCard(options);
+
+        setCard(options.reverse().slice(0,8));
       })
       .catch(console.error);
   };
