@@ -1,4 +1,3 @@
-import {Transition} from "../Transition";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
@@ -9,6 +8,7 @@ import Dialog from "@mui/material/Dialog";
 import {useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
 import {axios, axiosHeaders} from "../../../utils/axios-client";
+import EditIcon from '@mui/icons-material/Edit';
 
 export default function OrganizationFormDialog({open, organization = null, onClose, onActionEnd}){
     const [error, setError] = useState(null);
@@ -20,6 +20,9 @@ export default function OrganizationFormDialog({open, organization = null, onClo
         if(organization){
             setName(organization.name ?? '');
             setDescription(organization.description ?? '');
+        }else{
+            setName('');
+            setDescription('');
         }
     }, [organization])
 
@@ -27,9 +30,11 @@ export default function OrganizationFormDialog({open, organization = null, onClo
         e.preventDefault();
         setError(null);
         setSubmitting(true);
-        let request = axios.post(`/orgs`,{name,description},{...axiosHeaders});
+        let request;
         if(organization){
             request = axios.put(`/orgs/${organization.id}`,{name,description},{...axiosHeaders})
+        }else{
+            request = axios.post(`/orgs`,{name,description},{...axiosHeaders});
         }
         request
             .then(result => {
@@ -53,13 +58,14 @@ export default function OrganizationFormDialog({open, organization = null, onClo
     return (
         <Dialog
             open={open}
-            TransitionComponent={Transition}
             keepMounted
             onClose={onClose}
             aria-describedby="alert-dialog-slide-description"
+            fullWidth
+            maxWidth="sm"
         >
             <form onSubmit={handleCreation}>
-                <DialogTitle className="text-center">Nouvelle organisation</DialogTitle>
+                <DialogTitle className="text-center">{organization ? "Modifier l'organisation" : 'Nouvelle organisation'}</DialogTitle>
                 <DialogContent>
                     <div className="d-block w-full">
                         <TextField
@@ -91,9 +97,9 @@ export default function OrganizationFormDialog({open, organization = null, onClo
                         type="submit"
                         loading={submitting}
                         loadingPosition="start"
-                        startIcon={<AddIcon/>}
+                        startIcon={organization ? <EditIcon/> : <AddIcon/>}
                         disabled={!isFormValid}
-                    >Créer</LoadingButton>
+                    >{organization ? 'Modifier' : 'Créer'}</LoadingButton>
                     <Button onClick={onClose}>Annuler</Button>
                 </DialogActions>
             </form>

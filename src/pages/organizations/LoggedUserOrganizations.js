@@ -25,12 +25,9 @@ export default function LoggedUserOrganizations(){
     const {user} = useContext(UserContext);
     const [tab, setTab] = useState(0);
     const [fetching, setFetching] = useState(true);
-    const [openCreationDialog, setOpenCreationDialog] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
     const [organizations, setOrganizations] = useState([]);
-
-    const handleChange = (event, newValue) => {
-        setTab(newValue);
-    };
+    const [editedOrgagnization, setEditedOrganization] = useState(null);
 
     useEffect(() => {
         if(user){
@@ -43,12 +40,18 @@ export default function LoggedUserOrganizations(){
         }
     }, [user])
 
+    if(!user)return <></>;
+
+    const handleChange = (event, newValue) => {
+        setTab(newValue);
+    };
+
     const title = (
         <div className="d-flex justify-center">
             <span className="mr-1 my-auto">Mes organisations</span>
             <Tooltip title="Nouvelle organisation" placement="top">
                 <IconButton
-                    onClick={() => setOpenCreationDialog(true)}
+                    onClick={() => {setOpenDialog(true); setEditedOrganization(null);}}
                     color="primary"
                     aria-label="create organisation"
                     component="span"
@@ -67,6 +70,11 @@ export default function LoggedUserOrganizations(){
         setOrganizations(prev => prev.map(org => (org.id === oneOrganization.id ? oneOrganization : org)));
     }
 
+    const handleEditClick = (oneOrganization) => {
+        setEditedOrganization(oneOrganization);
+        setOpenDialog(true);
+    }
+
     return (
         <PageContainer title={title} loading={fetching}>
             <Tabs value={tab} onChange={handleChange} aria-label="icon label tabs">
@@ -74,21 +82,28 @@ export default function LoggedUserOrganizations(){
                 <Tab icon={<GroupIcon />} iconPosition="start" label="Je suis membre" {...a11yProps(1)}/>
             </Tabs>
             <TabPanel value={tab} index={0}>
-                <OrganizationTable organizations={organizations.filter(org => org.owner.id === user.id)}/>
+                <OrganizationTable
+                    onEdit={handleEditClick}
+                    organizations={organizations.filter(org => org.owner.id === user.id)}
+                />
             </TabPanel>
             <TabPanel value={tab} index={1}>
-                <OrganizationTable organizations={organizations.filter(org => org.owner.id !== user.id)}/>
+                <OrganizationTable
+                    onEdit={handleEditClick}
+                    organizations={organizations.filter(org => org.owner.id !== user.id)}
+                />
             </TabPanel>
             <OrganizationFormDialog
-                open={openCreationDialog}
-                onClose={() => setOpenCreationDialog(false)}
-                onActionEnd={handleNewOrganization}
+                organization={editedOrgagnization}
+                open={openDialog}
+                onClose={() => {setOpenDialog(false); setEditedOrganization(null)}}
+                onActionEnd={editedOrgagnization ? handleEditOrganization : handleNewOrganization}
             />
         </PageContainer>
     );
 }
 
-function OrganizationTable({organizations = []}){
+function OrganizationTable({organizations = [], onEdit}){
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -119,7 +134,7 @@ function OrganizationTable({organizations = []}){
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Modifier" placement="top">
-                                    <IconButton color="primary" aria-label="edit organization" component="span">
+                                    <IconButton onClick={() => onEdit(org)} color="primary" aria-label="edit organization" component="span">
                                         <EditIcon />
                                     </IconButton>
                                 </Tooltip>

@@ -38,6 +38,8 @@ export default function LoginDialog({open, onClose, onRegister}){
             keepMounted
             onClose={onClose}
             aria-describedby="alert-dialog-slide-description"
+            fullWidth
+            maxWidth="xs"
         >
             <form onSubmit={handleLogin}>
                 <DialogTitle className="text-center">Connexion</DialogTitle>

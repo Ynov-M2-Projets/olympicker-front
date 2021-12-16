@@ -39,12 +39,14 @@ export default function RegisterDialog({open, onClose, onConnection}){
             keepMounted
             onClose={onClose}
             aria-describedby="alert-dialog-slide-description"
+            fullWidth
+            maxWidth="xs"
         >
             <form onSubmit={handleRegister}>
                 <DialogTitle className="text-center">Inscription</DialogTitle>
                 <DialogContent>
                     <div className="d-block">
-                        <FormControl variant="standard">
+                        <FormControl variant="standard" fullWidth>
                             <InputLabel htmlFor="email-register">
                                 Adresse email
                             </InputLabel>
@@ -64,7 +66,7 @@ export default function RegisterDialog({open, onClose, onConnection}){
                         </FormControl>
                     </div>
                     <div className="d-block mt-2">
-                        <FormControl variant="standard">
+                        <FormControl variant="standard" fullWidth>
                             <InputLabel htmlFor="password-register">
                                 Mot de passe
                             </InputLabel>
@@ -83,7 +85,7 @@ export default function RegisterDialog({open, onClose, onConnection}){
                         </FormControl>
                     </div>
                     <div className="d-block mt-2">
-                        <FormControl variant="standard">
+                        <FormControl variant="standard" fullWidth>
                             <InputLabel htmlFor="password-confirm-register">
                                 Confirmez le mot de passe
                             </InputLabel>
