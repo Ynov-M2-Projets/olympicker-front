@@ -90,7 +90,6 @@ export default function LoggedUserOrganizations(){
             </TabPanel>
             <TabPanel value={tab} index={1}>
                 <OrganizationTable
-                    onEdit={handleEditClick}
                     organizations={organizations.filter(org => org.owner.id !== user.id)}
                 />
             </TabPanel>
@@ -143,14 +142,16 @@ function OrganizationTable({organizations = [], onEdit}){
                                         <VisibilityIcon />
                                     </IconButton>
                                 </Tooltip>
-                                <Tooltip title="Modifier" placement="top">
-                                    <IconButton
-                                        onClick={() => onEdit(org)}
-                                        color="primary" aria-label="edit organization" component="span"
-                                    >
-                                        <EditIcon />
-                                    </IconButton>
-                                </Tooltip>
+                                {!!onEdit && (
+                                    <Tooltip title="Modifier" placement="top">
+                                        <IconButton
+                                            onClick={() => onEdit(org)}
+                                            color="primary" aria-label="edit organization" component="span"
+                                        >
+                                            <EditIcon />
+                                        </IconButton>
+                                    </Tooltip>
+                                )}
                             </TableCell>
                         </TableRow>
                     ))}

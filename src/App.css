@@ -37,6 +37,7 @@ body{
 
 .m-auto {margin: auto;}
 .my-auto {margin-bottom: auto; margin-top: auto;}
+.mt-auto {margin-top: auto;}
 
 .my-1 {
     margin-top: 0.5em;
