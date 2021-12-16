@@ -5,13 +5,13 @@ import Typography from "@mui/material/Typography";
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from "@mui/material/Button";
 import {useContext, useState} from "react";
-import {UserContext} from "../../context/userContext/UserContext";
+import {UserContext} from "../../../context/userContext/UserContext";
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
-import LoginDialog from "../dialog/auth/LoginDialog";
+import LoginDialog from "../../dialog/auth/LoginDialog";
 import LoadingButton from '@mui/lab/LoadingButton';
-import RegisterDialog from "../dialog/auth/RegisterDialog";
-import MenuDrawer from "../menuDrawer/MenuDrawer";
+import RegisterDialog from "../../dialog/auth/RegisterDialog";
+import MenuDrawer from "../../menuDrawer/MenuDrawer";
 
 export default function Header(){
     const {user, logining, logout} = useContext(UserContext);
