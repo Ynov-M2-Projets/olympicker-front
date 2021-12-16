@@ -20,6 +20,7 @@ import TableBody from "@mui/material/TableBody";
 import Paper from '@mui/material/Paper';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import {useNavigate} from "react-router-dom";
 
 export default function LoggedUserOrganizations(){
     const {user} = useContext(UserContext);
@@ -104,6 +105,12 @@ export default function LoggedUserOrganizations(){
 }
 
 function OrganizationTable({organizations = [], onEdit}){
+    const navigate = useNavigate();
+
+    const onViewOrganization = (org) => {
+        navigate(`/organization/${org.id}`);
+    };
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -129,12 +136,18 @@ function OrganizationTable({organizations = [], onEdit}){
                             <TableCell align="left">{org.owner.email ?? ''}</TableCell>
                             <TableCell>
                                 <Tooltip title="Voir" placement="top">
-                                    <IconButton color="primary" aria-label="see organization" component="span">
+                                    <IconButton
+                                        onClick={() => onViewOrganization(org)}
+                                        color="primary" aria-label="see organization" component="span"
+                                    >
                                         <VisibilityIcon />
                                     </IconButton>
                                 </Tooltip>
                                 <Tooltip title="Modifier" placement="top">
-                                    <IconButton onClick={() => onEdit(org)} color="primary" aria-label="edit organization" component="span">
+                                    <IconButton
+                                        onClick={() => onEdit(org)}
+                                        color="primary" aria-label="edit organization" component="span"
+                                    >
                                         <EditIcon />
                                     </IconButton>
                                 </Tooltip>

@@ -38,8 +38,8 @@ export default function OrganizationFormDialog({open, organization = null, onClo
         }
         request
             .then(result => {
-                onActionEnd(result.data);
                 resetForm();
+                onActionEnd(result.data);
                 onClose();
             })
             .catch(error => {
