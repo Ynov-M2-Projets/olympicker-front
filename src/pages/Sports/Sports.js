@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Column } from "./SportsStyles";
 import { axios } from "../../utils/axios-client";
 import Card from "../../components/card/Card";
+import { useNavigate } from "react-router-dom";
 
 const Sports = () => {
   const [card, setCard] = useState([]);
+
+  const navigate = useNavigate();
 
   const loadList = () => {
     axios
@@ -19,13 +22,19 @@ const Sports = () => {
                 text={element.description}
                 imgTitle="green iguana"
                 imgPath="/logo192.png"
-              />
+                id={element.id}
+                onClickFunction={(index) => onViewSport(index)}
+              ></Card>
             </Column>
           );
         });
         setCard(options);
       })
       .catch(console.error);
+  };
+
+  const onViewSport = (sport) => {
+    // navigate(`/events/${sport}`);
   };
 
   useEffect(() => {

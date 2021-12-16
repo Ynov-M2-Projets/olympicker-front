@@ -10,6 +10,7 @@ import SnackbarContextProvider from "./context/snackbarContext/SnackbarContext";
 import LoggedUserOrganizations from "./pages/organizations/LoggedUserOrganizations";
 import ViewOrganization from "./pages/organizations/ViewOrganization";
 import Events from './pages/Events/Events';
+import ViewEvent from './pages/Events/ViewEvent';
 import {ThemeProvider, createTheme} from "@mui/material/styles";
 
 const theme = createTheme({
@@ -37,6 +38,7 @@ function App() {
                               <Route path="/organization/:organizationId" element={<ViewOrganization/>} />
                               <Route path="/sports" element={<Sports/>} />
                               <Route path="/events" element={<Events/>} />
+                              <Route path="/events/:eventId" element={<ViewEvent/>} />
                               <Route path="*" element={<>Not Found</>} />
                           </Routes>
                       </Layout>

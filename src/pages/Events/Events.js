@@ -3,10 +3,17 @@ import { Container, Row, Column } from "./EventsStyles";
 import { axios } from "../../utils/axios-client";
 import Card from "../../components/card/Card";
 import { TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Events = () => {
   const [card, setCard] = useState([]);
   const [cardFilter, setcardFilter] = useState([]);
+
+  const navigate = useNavigate();
+
+  const onViewEvent = (eve) => {
+    navigate(`/events/${eve}`);
+  };
 
   const loadList = () => {
     axios
@@ -21,7 +28,9 @@ const Events = () => {
                 text={element.description}
                 imgTitle="green iguana"
                 imgPath="/logo192.png"
-              />
+                id={element.id}
+                onClickFunction={(index) => onViewEvent(index)}
+              ></Card>
             </Column>
           );
         });
