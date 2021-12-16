@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 
 export default function MediaCard(props) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 }} onClick={() => props.onClickFunction(props.id)}>
       <CardMedia
         component="img"
         height="140"
