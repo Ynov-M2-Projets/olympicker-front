@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Column } from "./SportsStyles";
 import { axios } from "../../utils/axios-client";
 import Card from "../../components/card/Card";
@@ -19,7 +19,7 @@ const Sports = () => {
                 text={element.description}
                 imgTitle="green iguana"
                 imgPath="/logo192.png"
-              ></Card>
+              />
             </Column>
           );
         });

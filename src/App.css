@@ -87,4 +87,5 @@ body{
 .no-decoration-link{
     text-decoration: none;
     cursor: pointer;
+    color:inherit;
 }

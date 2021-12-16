@@ -4,13 +4,33 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import Grid from "@mui/material/Grid";
-import {useTheme} from "@mui/material/styles";
+import {makeStyles, createStyles} from "@mui/styles";
+
+const useStyles = makeStyles((theme) =>
+    createStyles({
+      root: {
+        marginTop: 'auto',
+        paddingTop: '0.5em',
+        backgroundColor: theme.palette.primary.main,
+        color: 'white'
+      },
+      linkHover: {
+        textDecoration: 'none',
+        cursor: 'pointer',
+        color: 'inherit',
+        transition: 'all 0.1s ease-in-out',
+        '&:hover': {
+          color: theme.palette.secondary.main
+        }
+      }
+    }),
+);
 
 const Footer = () => {
-  const theme = useTheme();
+  const classes = useStyles();
 
   return (
-    <div className="mt-auto" style={{backgroundColor: theme.palette.primary}}>
+    <div className={classes.root}>
       <Grid
           container
           rowSpacing={1}
@@ -18,32 +38,32 @@ const Footer = () => {
       >
         <Grid item xs={4} className="text-center">
           <div>
-            <div>Services</div>
-            <div data-href="#">Compete</div>
+            <div className="font-bold mb-1">Services</div>
+            <a className={classes.linkHover} href="#">Compete</a>
           </div>
         </Grid>
         <Grid item xs={4} className="text-center">
           <div>
-            <div>Contact Us</div>
-            <div data-href="#">France</div>
+            <div className="font-bold mb-1">Contact Us</div>
+            <a className={classes.linkHover} href="#">France</a>
           </div>
         </Grid>
         <Grid item xs={4} className="d-flex justify-center">
           <div className="text-center">
-            <div>Social Media</div>
+            <div className="font-bold mb-1">Social Media</div>
             <div className="d-flex">
-              <div data-href="#">
+              <a className={classes.linkHover} href="#">
                 <FacebookIcon />
-              </div>
-              <div data-href="#">
+              </a>
+              <a className={classes.linkHover} href="#">
                 <InstagramIcon />
-              </div>
-              <div data-href="#">
+              </a>
+              <a className={classes.linkHover} href="#">
                 <TwitterIcon />
-              </div>
-              <div data-href="#">
+              </a>
+              <a className={classes.linkHover} href="#">
                 <YouTubeIcon />
-              </div>
+              </a>
             </div>
           </div>
         </Grid>
