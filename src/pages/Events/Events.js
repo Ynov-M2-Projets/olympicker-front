@@ -49,9 +49,9 @@ const Events = () => {
     cardFilter.forEach((element) => {
       const elementCard = element.props.children.props;
 
-      var valueUp = value.toUpperCase();
-      var name = elementCard.titre.toUpperCase();
-      var desc = elementCard.text.toUpperCase();
+      const valueUp = value.toUpperCase();
+      const name = elementCard.titre.toUpperCase();
+      const desc = elementCard.text.toUpperCase();
       if (name.indexOf(valueUp) > -1 || desc.indexOf(valueUp) > -1) {
         options.push(element);
       }
@@ -68,7 +68,7 @@ const Events = () => {
           fontSize: "3 rem",
         }}
       >
-        List des événements
+        Liste des événements
       </h1>
       <TextField
         id="event-search"

@@ -11,26 +11,40 @@ import LoggedUserOrganizations from "./pages/organizations/LoggedUserOrganizatio
 import ViewOrganization from "./pages/organizations/ViewOrganization";
 import Events from './pages/Events/Events';
 import ViewEvent from './pages/Events/ViewEvent';
+import {ThemeProvider, createTheme} from "@mui/material/styles";
+
+const theme = createTheme({
+    palette: {
+        primary: {
+            main: '#1e88e5',
+        },
+        secondary: {
+            main: '#00acc1',
+        },
+    },
+});
 
 function App() {
   return (
       <BrowserRouter>
-          <UserContextProvider>
-              <SnackbarContextProvider>
-                  <Layout>
-                      <Routes>
-                          <Route path="/" element={<Home/>} />
-                          <Route path="/profile" element={<Profile/>} />
-                          <Route path="/my-organizations" element={<LoggedUserOrganizations/>} />
-                          <Route path="/organization/:organizationId" element={<ViewOrganization/>} />
-                          <Route path="/sports" element={<Sports/>} />
-                          <Route path="/events" element={<Events/>} />
-                          <Route path="/events/:eventId" element={<ViewEvent/>} />
-                          <Route path="*" element={<>Not Found</>} />
-                      </Routes>
-                  </Layout>
-              </SnackbarContextProvider>
-          </UserContextProvider>
+          <ThemeProvider theme={theme}>
+              <UserContextProvider>
+                  <SnackbarContextProvider>
+                      <Layout>
+                          <Routes>
+                              <Route path="/" element={<Home/>} />
+                              <Route path="/profile" element={<Profile/>} />
+                              <Route path="/my-organizations" element={<LoggedUserOrganizations/>} />
+                              <Route path="/organization/:organizationId" element={<ViewOrganization/>} />
+                              <Route path="/sports" element={<Sports/>} />
+                              <Route path="/events" element={<Events/>} />
+                              <Route path="/events/:eventId" element={<ViewEvent/>} />
+                              <Route path="*" element={<>Not Found</>} />
+                          </Routes>
+                      </Layout>
+                  </SnackbarContextProvider>
+              </UserContextProvider>
+          </ThemeProvider>
       </BrowserRouter>
   );
 }
