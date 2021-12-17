@@ -10,7 +10,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import Tooltip from "@mui/material/Tooltip";
 import {useNavigate} from "react-router-dom";
 
-export default function EventsTable({events}){
+export default function EventsTable({events,displaySport}){
     const navigate = useNavigate();
 
     const onViewEvent = (event) => {
@@ -23,7 +23,9 @@ export default function EventsTable({events}){
                 <TableHead>
                     <TableRow>
                         <TableCell>Nom</TableCell>
-                        <TableCell align="left">Sport</TableCell>
+                        {displaySport && (
+                            <TableCell align="left">Sport</TableCell>
+                        )}
                         <TableCell align="left">Slots</TableCell>
                         <TableCell/>
                     </TableRow>
@@ -36,7 +38,9 @@ export default function EventsTable({events}){
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">{event.name}</TableCell>
-                            <TableCell align="left">{event.sport.name ?? ''}</TableCell>
+                            {displaySport && (
+                                <TableCell align="left">{event.sport.name ?? ''}</TableCell>
+                            )}
                             <TableCell>{event.slots}</TableCell>
                             <TableCell>
                                 <Tooltip title="Voir" placement="top">

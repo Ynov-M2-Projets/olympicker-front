@@ -11,6 +11,7 @@ import LoggedUserOrganizations from "./pages/organizations/LoggedUserOrganizatio
 import ViewOrganization from "./pages/organizations/ViewOrganization";
 import Events from './pages/Events/Events';
 import ViewEvent from './pages/Events/ViewEvent';
+import ViewSport from './pages/Sports/ViewSport';
 import {ThemeProvider, createTheme} from "@mui/material/styles";
 
 const theme = createTheme({
@@ -37,6 +38,7 @@ function App() {
                               <Route path="/my-organizations" element={<LoggedUserOrganizations/>} />
                               <Route path="/organization/:organizationId" element={<ViewOrganization/>} />
                               <Route path="/sports" element={<Sports/>} />
+                              <Route path="/sports/:sportId" element={<ViewSport/>} />
                               <Route path="/events" element={<Events/>} />
                               <Route path="/events/:eventId" element={<ViewEvent/>} />
                               <Route path="*" element={<>Not Found</>} />
