@@ -8,14 +8,30 @@ import TableContainer from "@mui/material/TableContainer";
 import TextField from "@mui/material/TextField";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from "@mui/icons-material/Add";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {axios, axiosHeaders} from "../../utils/axios-client";
+import CircularProgress from "@mui/material/CircularProgress";
 
-export default function Rankings({ranking, stageId, setRanking}){
+export default function Rankings({stage}){
+    const [fetching, setFetching] = useState(true);
+    const [ranking, setRanking] = useState(null);
     const [submitting, setSubmitting] = useState(false);
     const [userId, setUserId] = useState('');
     const [position, setPosition] = useState('');
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        if(stage){
+            setError(null);
+            axios.get(`/stages/${stage.id}/ranking`)
+                .then(result => {
+                    console.log(result.data);
+                    setRanking(result.data);
+                })
+                .catch(error => setError(error.toString()))
+                .finally(() => setFetching(false))
+        }
+    }, [stage])
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,13 +41,15 @@ export default function Rankings({ranking, stageId, setRanking}){
             setError("L'utilisateur est déjà classé");
             return;
         }
-        axios.post(`/stages/${stageId}/ranking`,{userId, position}, {...axiosHeaders()})
+        axios.post(`/stages/${stage.id}/ranking`,{userId, position}, {...axiosHeaders()})
             .then(({data}) => {
                 setRanking(prev => [...prev, data])
             })
             .catch(error => setError(error.toString()))
             .finally(() => setSubmitting(false))
     };
+
+    if(fetching) return <CircularProgress/>;
 
     return (
         <>

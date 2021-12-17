@@ -20,6 +20,8 @@ import HelpIcon from '@mui/icons-material/Help';
 import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
 import StageFormDialog from "../../components/dialog/event/StageFormDialog";
+import Rankings from "../../components/table/Rankings";
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 
 export default function ViewEvent() {
   const params = useParams();
@@ -147,17 +149,22 @@ export default function ViewEvent() {
             aria-label="icon label tabs"
           >
             <Tab icon={<GroupIcon />} iconPosition="start" label="Participant" {...a11yProps(0)}/>
-              {isStageEvent && <Tab icon={<DateRangeIcon />} iconPosition="start" label="Etapes" {...a11yProps(1)}/>}
+              {isStageEvent ? <Tab icon={<DateRangeIcon />} iconPosition="start" label="Etapes" {...a11yProps(1)}/>
+              : <Tab icon={<MilitaryTechIcon />} iconPosition="start" label="Classement" {...a11yProps(1)}/> }
           </Tabs>
           <TabPanel value={tab} index={0}>
             <ParticipatingTable users={members} />
           </TabPanel>
-            {isStageEvent && (
-                <TabPanel value={tab} index={1}>
-                    {(event && user && user.id === event.organization.owner.id) && addStageButton}
-                    <StagesTable stages={event.stages} type={event.type}/>
-                </TabPanel>
-            )}
+            <TabPanel value={tab} index={1}>
+                {isStageEvent ? (
+                    <>
+                        {(event && user && user.id === event.organization.owner.id) && addStageButton}
+                        <StagesTable stages={event.stages} type={event.type}/>
+                    </>
+                ) : (
+                    <Rankings stage={event.stage}/>
+                )}
+            </TabPanel>
         </>
       )}
     </PageContainer>

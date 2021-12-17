@@ -23,12 +23,12 @@ export default function ViewSport() {
     async function fetchData() {
       setFetching(true);
       await axios
-        .get(`/sports/${params.sportId}`, { ...axiosHeaders })
+        .get(`/sports/${params.sportId}`, { ...axiosHeaders() })
         .then((result) => {
           setSport(result.data);
         })
         .catch(console.error);
-        await axios.get(`/sports/${params.sportId}/events`,{...axiosHeaders})
+        await axios.get(`/sports/${params.sportId}/events`,{...axiosHeaders()})
             .then(result => {
                 setEvents(result.data);
             }).catch(console.error)
