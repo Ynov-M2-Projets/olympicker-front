@@ -8,7 +8,7 @@ export default function CommonEventFormFields({event, onChange}) {
                 fullWidth
                 margin="dense"
                 required
-                value={event.name}
+                value={event.name ?? ''}
                 onChange={onChange('name')}
             />
             <TextField
@@ -18,7 +18,7 @@ export default function CommonEventFormFields({event, onChange}) {
                 required
                 multiline
                 rows={5}
-                value={event.description}
+                value={event.description ?? ''}
                 onChange={onChange('description')}
             />
         </>

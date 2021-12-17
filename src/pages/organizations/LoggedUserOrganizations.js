@@ -34,7 +34,7 @@ export default function LoggedUserOrganizations(){
         if(user){
             axios.get(`/users/${user.id}/organizations`, {...axiosHeaders()})
                 .then(result => {
-                    setOrganizations(result.data);console.log(result.data)
+                    setOrganizations(result.data);
                 })
                 .catch(console.error)
                 .finally(() => {setFetching(false)})

@@ -14,6 +14,12 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AssignmentReturnIcon from "@mui/icons-material/AssignmentReturn";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 import {displayDate} from "../../utils/date";
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import StagesTable from "../../components/table/StagesTable";
+import HelpIcon from '@mui/icons-material/Help';
+import Tooltip from "@mui/material/Tooltip";
+import Button from "@mui/material/Button";
+import StageFormDialog from "../../components/dialog/event/StageFormDialog";
 
 export default function ViewEvent() {
   const params = useParams();
@@ -24,6 +30,7 @@ export default function ViewEvent() {
   const [members, setMembers] = useState([]);
   const [joining, setJoining] = useState(false);
   const [leaving, setLeaving] = useState(false);
+  const [openStageFormDialog, setOpenStageFormDialog] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
@@ -31,7 +38,7 @@ export default function ViewEvent() {
       await axios
         .get(`/events/${params.eventId}`, { ...axiosHeaders() })
         .then((result) => {
-          setEvent(result.data);console.log(result.data);
+          setEvent(result.data);
         })
         .catch(console.error);
       await axios.get(`/events/${params.eventId}/participants`,{...axiosHeaders()})
@@ -106,7 +113,25 @@ export default function ViewEvent() {
       </div>
     );
   };
+
   console.log(event);
+  const isStageEvent = event && event.type === "STAGE";
+
+  const handleNewStage = (newEvent) => {
+      setEvent(newEvent);
+  }
+
+  const addStageButton = (
+      <div className="d-flex justify-center mb-1">
+          <Button variant="contained" onClick={() => setOpenStageFormDialog(true)}>Nouvelle étape</Button>
+          <StageFormDialog
+              open={openStageFormDialog}
+              onClose={() => setOpenStageFormDialog(false)}
+              eventId={event ? event.id : null}
+              onSuccess={handleNewStage}
+          />
+      </div>
+  );
 
   return (
     <PageContainer title={title()} loading={fetching}>
@@ -122,11 +147,17 @@ export default function ViewEvent() {
             aria-label="icon label tabs"
           >
             <Tab icon={<GroupIcon />} iconPosition="start" label="Participant" {...a11yProps(0)}/>
-            <Tab icon={<GroupIcon />} iconPosition="start" label="Etapes" {...a11yProps(0)}/>
+              {isStageEvent && <Tab icon={<DateRangeIcon />} iconPosition="start" label="Etapes" {...a11yProps(1)}/>}
           </Tabs>
           <TabPanel value={tab} index={0}>
             <ParticipatingTable users={members} />
           </TabPanel>
+            {isStageEvent && (
+                <TabPanel value={tab} index={1}>
+                    {(event && user && user.id === event.organization.owner.id) && addStageButton}
+                    <StagesTable stages={event.stages}/>
+                </TabPanel>
+            )}
         </>
       )}
     </PageContainer>
@@ -172,8 +203,16 @@ function StageEventViewDates({event}){
         <Grid item xs={4} sm={2} md={2} className="font-bold">
           Date(s)
         </Grid>
-        <Grid item xs={4} sm={6} md={10}>
-          du {event.startDate ?? 'Indéfini'} au {event.endDate ?? 'Indéfini'}
+        <Grid item xs={4} sm={6} md={10} className="d-flex">
+            <div className="my-auto mr-1">
+                du {event.startDate ? displayDate(event.startDate) : 'Indéfini'}{' '}
+                au {event.endDate ? displayDate(event.endDate) : 'Indéfini'}
+            </div>
+            {(!event.startDate && !event.endDate) && (
+                <Tooltip title="Renseignez des étapes pour définir les dates" placement="top">
+                    <HelpIcon/>
+                </Tooltip>
+            )}
         </Grid>
       </>
   );
