@@ -51,8 +51,6 @@ export default function EventFormDialog({open, onClose, type, onActionEnd, event
         else setFormEvent(INITIAL_EVENT);
     },[event, formatEvent])
 
-    useEffect(() => console.log(formEvent), [formEvent]);
-
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitting(true);

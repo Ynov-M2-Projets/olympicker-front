@@ -148,7 +148,7 @@ export default function ViewOrganization() {
     const onNewEvent = (newEvent) => {
         setEvents(prev => [...prev, newEvent]);
     }
-useEffect(() => console.log(events), [events])
+
     const eventMenu = (
         <div className="d-flex justify-center mb-1">
             <Button

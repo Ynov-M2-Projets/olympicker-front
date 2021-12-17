@@ -5,8 +5,18 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
+import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import Tooltip from "@mui/material/Tooltip";
+import {useNavigate} from "react-router-dom";
 
 export default function EventsTable({events}){
+    const navigate = useNavigate();
+
+    const onViewEvent = (event) => {
+        navigate(`/events/${event.id}`);
+    };
+
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -29,6 +39,14 @@ export default function EventsTable({events}){
                             <TableCell align="left">{event.sport.name ?? ''}</TableCell>
                             <TableCell>{event.slots}</TableCell>
                             <TableCell>
+                                <Tooltip title="Voir" placement="top">
+                                    <IconButton
+                                        onClick={() => onViewEvent(event)}
+                                        color="primary" aria-label="see event" component="span"
+                                    >
+                                        <VisibilityIcon />
+                                    </IconButton>
+                                </Tooltip>
                             </TableCell>
                         </TableRow>
                     ))}
