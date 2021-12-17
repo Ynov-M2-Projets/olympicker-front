@@ -60,7 +60,7 @@ export default function EventFormDialog({open, onClose, type, onActionEnd, event
                 onActionEnd(result.data);
                 onClose();
                 showSnackbar('Evènement créé avec succès');
-            }).catch(console.error).finally(() => setSubmitting(false))
+            }).catch(error => setError(error.toString())).finally(() => setSubmitting(false))
     }
 
     const handleChange = (prop) => (e) => {

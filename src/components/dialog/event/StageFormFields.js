@@ -10,7 +10,7 @@ export default function StageFormFields({stage, onChange}){
                 margin="dense"
                 fullWidth
                 required
-                value={stage.location}
+                value={stage.location ?? ''}
                 onChange={onChange('location')}
             />
             <div className="d-flex">
@@ -28,7 +28,7 @@ export default function StageFormFields({stage, onChange}){
                     label="Prix"
                     type="number"
                     margin="dense"
-                    value={stage.price}
+                    value={stage.price ?? ''}
                     onChange={onChange('price')}
                 />
             </div>
