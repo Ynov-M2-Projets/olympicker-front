@@ -13,6 +13,7 @@ import ParticipatingTable from "../../components/table/ParticipatingTable";
 import LoadingButton from "@mui/lab/LoadingButton";
 import AssignmentReturnIcon from "@mui/icons-material/AssignmentReturn";
 import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
+import {displayDate} from "../../utils/date";
 
 export default function ViewEvent() {
   const params = useParams();
@@ -105,36 +106,14 @@ export default function ViewEvent() {
       </div>
     );
   };
+  console.log(event);
 
   return (
     <PageContainer title={title()} loading={fetching}>
       {event && (
         <>
           <div className="py-2">
-            <Grid
-              container
-              spacing={{ xs: 2 }}
-              columns={{ xs: 4, sm: 8, md: 12 }}
-            >
-              <Grid item xs={4} sm={2} md={2} className="font-bold">
-                Organisation
-              </Grid>
-              <Grid item xs={4} sm={6} md={10}>
-                <Link to={`/organization/${event.organization.id}`}>{event.organization.name}</Link>
-              </Grid>
-              <Grid item xs={4} sm={2} md={2} className="font-bold">
-                Description
-              </Grid>
-              <Grid item xs={4} sm={6} md={10}>
-                {event.description}
-              </Grid>
-              <Grid item xs={4} sm={2} md={2} className="font-bold">
-                Sport
-              </Grid>
-              <Grid item xs={4} sm={6} md={10}>
-                {event.sport.name}
-              </Grid>
-            </Grid>
+            <EventTypeView event={event}/>
           </div>
           <Divider />
           <Tabs
@@ -142,12 +121,8 @@ export default function ViewEvent() {
             onChange={handleChange}
             aria-label="icon label tabs"
           >
-            <Tab
-              icon={<GroupIcon />}
-              iconPosition="start"
-              label="Participant"
-              {...a11yProps(0)}
-            />
+            <Tab icon={<GroupIcon />} iconPosition="start" label="Participant" {...a11yProps(0)}/>
+            <Tab icon={<GroupIcon />} iconPosition="start" label="Etapes" {...a11yProps(0)}/>
           </Tabs>
           <TabPanel value={tab} index={0}>
             <ParticipatingTable users={members} />
@@ -155,5 +130,64 @@ export default function ViewEvent() {
         </>
       )}
     </PageContainer>
+  );
+}
+
+function EventTypeView({event}) {
+  let dates;
+  if(event.type === 'SIMPLE') dates = <SimpleEventViewDates event={event}/>;
+  else dates = <StageEventViewDates event={event}/>
+  return (
+      <Grid
+          container
+          spacing={{ xs: 2 }}
+          columns={{ xs: 4, sm: 8, md: 12 }}
+      >
+        <Grid item xs={4} sm={2} md={2} className="font-bold">
+          Organisation
+        </Grid>
+        <Grid item xs={4} sm={6} md={10}>
+          <Link to={`/organization/${event.organization.id}`}>{event.organization.name}</Link>
+        </Grid>
+        <Grid item xs={4} sm={2} md={2} className="font-bold">
+          Description
+        </Grid>
+        <Grid item xs={4} sm={6} md={10}>
+          {event.description}
+        </Grid>
+        <Grid item xs={4} sm={2} md={2} className="font-bold">
+          Sport
+        </Grid>
+        <Grid item xs={4} sm={6} md={10}>
+          {event.sport.name}
+        </Grid>
+        {dates}
+      </Grid>
+  );
+}
+
+function StageEventViewDates({event}){
+  return (
+      <>
+        <Grid item xs={4} sm={2} md={2} className="font-bold">
+          Date(s)
+        </Grid>
+        <Grid item xs={4} sm={6} md={10}>
+          du {event.startDate ?? 'Indéfini'} au {event.endDate ?? 'Indéfini'}
+        </Grid>
+      </>
+  );
+}
+
+function SimpleEventViewDates({event}){
+  return (
+      <>
+        <Grid item xs={4} sm={2} md={2} className="font-bold">
+          Date
+        </Grid>
+        <Grid item xs={4} sm={6} md={10}>
+          le {displayDate(event.stage.date) ?? 'Indéfini'}
+        </Grid>
+      </>
   );
 }
