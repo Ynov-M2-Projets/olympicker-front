@@ -13,7 +13,7 @@ export default function UsersTable({users}) {
                 <TableHead>
                     <TableRow>
                         <TableCell>Nom</TableCell>
-                        <TableCell align="left">Prènom</TableCell>
+                        <TableCell align="left">Prénom</TableCell>
                         <TableCell/>
                     </TableRow>
                 </TableHead>

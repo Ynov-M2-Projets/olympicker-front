@@ -32,7 +32,7 @@ export default function LoggedUserOrganizations(){
 
     useEffect(() => {
         if(user){
-            axios.get(`/users/${user.id}/organizations`, {...axiosHeaders})
+            axios.get(`/users/${user.id}/organizations`, {...axiosHeaders()})
                 .then(result => {
                     setOrganizations(result.data);console.log(result.data)
                 })

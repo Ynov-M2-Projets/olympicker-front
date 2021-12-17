@@ -15,7 +15,7 @@ export default function ProfileGeneralForm(){
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitting(true);
-        axios.put('/users',newUser,{...axiosHeaders})
+        axios.put('/users',newUser,{...axiosHeaders()})
             .then(result => {
                 updateUser(result.data);
                 showSnackbar('Modifications enregistrées');
