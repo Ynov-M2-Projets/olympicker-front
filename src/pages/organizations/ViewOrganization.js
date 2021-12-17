@@ -210,7 +210,7 @@ export default function ViewOrganization() {
                     </TabPanel>
                     <TabPanel value={tab} index={1}>
                         {isOwner && eventMenu}
-                        <EventsTable events={events}/>
+                        <EventsTable events={events} displaySport={true}/>
                     </TabPanel>
                 </>
             )}

@@ -34,7 +34,7 @@ const Sports = () => {
   };
 
   const onViewSport = (sport) => {
-    // navigate(`/events/${sport}`);
+    navigate(`/sports/${sport}`);
   };
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Sports = () => {
   }, []);
 
   return (
-    <div style={{marginBottom: "3%"}}>
+    <div style={{ marginBottom: "3%" }}>
       <h1
         style={{
           textAlign: "center",
