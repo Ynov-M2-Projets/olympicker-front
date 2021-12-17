@@ -1,31 +1,11 @@
-import TextField from "@mui/material/TextField";
+import CommonEventFormFields from "./CommonEventFormFields";
+import SportsSelect from "../../other/SportsSelect";
 
-export default function StageEventFormFields({event, sports, setEvent}) {
-
-    const handleChange = (prop) => (e) => {
-        setEvent(prev => ({...prev, [prop] : e.target.value}));
-    };
-
+export default function StageEventFormFields({event, onChange}) {
     return (
         <div>
-            <TextField
-                label="Nom"
-                fullWidth
-                margin="dense"
-                required
-                value={event.name}
-                onChange={handleChange('name')}
-            />
-            <TextField
-                label="Description"
-                fullWidth
-                margin="dense"
-                required
-                multiline
-                rows={5}
-                value={event.description}
-                onChange={handleChange('description')}
-            />
+            <SportsSelect value={event.sportId} onChange={onChange('sportId')}/>
+            <CommonEventFormFields event={event} onChange={onChange}/>
         </div>
     );
 }

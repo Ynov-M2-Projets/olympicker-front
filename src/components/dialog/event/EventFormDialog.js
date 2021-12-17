@@ -14,11 +14,11 @@ import {axios, axiosHeaders} from "../../../utils/axios-client";
 const INITIAL_EVENT = {
     name: '',
     description: '',
-    sportId: 0,
-    organizationId: 0,
+    sportId: '',
+    organizationId: '',
     date: '',
     location: '',
-    price: 0
+    price: ''
 };
 
 const formatSimpleFormEvent = (event) => ({
@@ -38,9 +38,7 @@ const formatStageFormEvent = (event) => ({
 
 export default function EventFormDialog({open, onClose, type, event = null}) {
     const [submitting, setSubmitting] = useState(false);
-    const [fetching, setFetching] = useState(false);
     const [formEvent, setFormEvent] = useState(INITIAL_EVENT);
-    const [sports, setSports] = useState([]);
     const formatEvent = useCallback((event) => {
         return type === 'stage' ? formatStageFormEvent(event) : formatSimpleFormEvent(event);
     }, [type]);
@@ -50,25 +48,19 @@ export default function EventFormDialog({open, onClose, type, event = null}) {
         else setFormEvent(INITIAL_EVENT);
     },[event, formatEvent])
 
-    useEffect(() => {
-        setFetching(true);
-        axios.get(`/sports`,{...axiosHeaders()})
-            .then(result => {
-                setSports(result.data);
-            })
-            .catch(console.error).finally(() => setFetching(false))
-    }, [])
-
+    useEffect(() => console.log(formEvent), [formEvent]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitting(true);
     }
 
-    const isFormValid = true;
+    const handleChange = (prop) => (e) => {
+        setFormEvent(prev => ({...prev, [prop] : e.target.value}));
+    };
 
-    let form = <SimpleEventFormFields event={formEvent} setEvent={setFormEvent} sports={sports}/>;
-    if(type === 'stage') form = <StageEventFormFields event={formEvent} setEvent={setFormEvent} sports={sports}/>;
+    let form = <SimpleEventFormFields event={formEvent} onChange={handleChange}/>;
+    if(type === 'stage') form = <StageEventFormFields event={formEvent} onChange={handleChange}/>;
 
     return (
         <Dialog
@@ -90,7 +82,7 @@ export default function EventFormDialog({open, onClose, type, event = null}) {
                         loading={submitting}
                         loadingPosition="start"
                         startIcon={event ? <EditIcon/> : <AddIcon/>}
-                        disabled={!isFormValid || fetching || submitting}
+                        disabled={submitting}
                     >{event ? 'Modifier' : 'Créer'}</LoadingButton>
                     <Button onClick={onClose}>Annuler</Button>
                 </DialogActions>
