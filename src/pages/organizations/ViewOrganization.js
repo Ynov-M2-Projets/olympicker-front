@@ -153,7 +153,7 @@ export default function ViewOrganization() {
                         <UsersTable users={members}/>
                     </TabPanel>
                     <TabPanel value={tab} index={1}>
-                        <EventsTable events={[]}/>
+                        <EventsTable events={[]} displaySport={true}/>
                     </TabPanel>
                 </>
             )}

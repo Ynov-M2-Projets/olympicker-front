@@ -14,7 +14,7 @@ const Sports = () => {
       .get("/sports")
       .then((result) => {
         const options = [];
-        result.data.content.forEach((element) => {
+        result.data.forEach((element) => {
           options.push(
             <Column>
               <Card
@@ -34,7 +34,7 @@ const Sports = () => {
   };
 
   const onViewSport = (sport) => {
-    // navigate(`/events/${sport}`);
+    navigate(`/sports/${sport}`);
   };
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const Sports = () => {
   }, []);
 
   return (
-    <div style={{marginBottom: "3%"}}>
+    <div style={{ marginBottom: "3%" }}>
       <h1
         style={{
           textAlign: "center",
