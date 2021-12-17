@@ -8,8 +8,9 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import Button from "@mui/material/Button";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {axios, axiosHeaders} from "../../../utils/axios-client";
+import {SnackbarContext} from "../../../context/snackbarContext/SnackbarContext";
 
 const INITIAL_EVENT = {
     name: '',
@@ -36,12 +37,14 @@ const formatStageFormEvent = (event) => ({
     sportId : event.sport.id,
 })
 
-export default function EventFormDialog({open, onClose, type, event = null}) {
+export default function EventFormDialog({open, onClose, type, onActionEnd, event = null, orgId}) {
     const [submitting, setSubmitting] = useState(false);
     const [formEvent, setFormEvent] = useState(INITIAL_EVENT);
+    const [error, setError] = useState(null);
     const formatEvent = useCallback((event) => {
         return type === 'stage' ? formatStageFormEvent(event) : formatSimpleFormEvent(event);
     }, [type]);
+    const {showSnackbar} = useContext(SnackbarContext);
 
     useEffect(() => {
         if(event) setFormEvent(formatEvent(event));
@@ -53,6 +56,13 @@ export default function EventFormDialog({open, onClose, type, event = null}) {
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitting(true);
+        setError(null);
+        axios.post(`/events/${type}`,{...formEvent, organizationId: orgId},{...axiosHeaders()})
+            .then(result => {
+                onActionEnd(result.data);
+                onClose();
+                showSnackbar('Evènement créé avec succès');
+            }).catch(console.error).finally(() => setSubmitting(false))
     }
 
     const handleChange = (prop) => (e) => {
@@ -74,6 +84,7 @@ export default function EventFormDialog({open, onClose, type, event = null}) {
                 <DialogTitle className="text-center">{event ? "Modifier l'évènement" : 'Nouvel évènement'}</DialogTitle>
                 <DialogContent>
                     {form}
+                    {error && <div className="error">{error}</div>}
                 </DialogContent>
                 <DialogActions>
                     <LoadingButton

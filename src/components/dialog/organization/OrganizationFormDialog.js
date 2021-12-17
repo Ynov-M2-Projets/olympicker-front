@@ -5,16 +5,18 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import AddIcon from '@mui/icons-material/Add';
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import TextField from "@mui/material/TextField";
 import {axios, axiosHeaders} from "../../../utils/axios-client";
 import EditIcon from '@mui/icons-material/Edit';
+import {SnackbarContext} from "../../../context/snackbarContext/SnackbarContext";
 
 export default function OrganizationFormDialog({open, organization = null, onClose, onActionEnd}){
     const [error, setError] = useState(null);
     const [submitting, setSubmitting] = useState(null);
     const [name, setName] = useState(organization ? organization.name ?? '' : '');
     const [description, setDescription] = useState(organization ? organization.description ?? '' : '');
+    const {showSnackbar} = useContext(SnackbarContext);
 
     useEffect(() => {
         if(organization){
@@ -30,16 +32,19 @@ export default function OrganizationFormDialog({open, organization = null, onClo
         e.preventDefault();
         setError(null);
         setSubmitting(true);
-        let request;
+        let request, message;
         if(organization){
             request = axios.put(`/orgs/${organization.id}`,{name,description},{...axiosHeaders()})
+            message = 'Organisation modifiée';
         }else{
             request = axios.post(`/orgs`,{name,description},{...axiosHeaders()});
+            message = 'Organisation créée avec succès';
         }
         request
             .then(result => {
                 resetForm();
                 onActionEnd(result.data);
+                showSnackbar(message);
                 onClose();
             })
             .catch(error => {

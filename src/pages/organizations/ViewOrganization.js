@@ -145,6 +145,10 @@ export default function ViewOrganization() {
         setOpenEventDialog(true);
     }
 
+    const onNewEvent = (newEvent) => {
+        setEvents(prev => [...prev, newEvent]);
+    }
+useEffect(() => console.log(events), [events])
     const eventMenu = (
         <div className="d-flex justify-center mb-1">
             <Button
@@ -170,6 +174,8 @@ export default function ViewOrganization() {
                 open={openEventDialog}
                 type={menuType}
                 onClose={() => setOpenEventDialog(false)}
+                onActionEnd={onNewEvent}
+                orgId={organization ? organization.id : null}
             />
         </div>
     );
@@ -203,7 +209,7 @@ export default function ViewOrganization() {
                         <UsersTable users={members}/>
                     </TabPanel>
                     <TabPanel value={tab} index={1}>
-                        {eventMenu}
+                        {isOwner && eventMenu}
                         <EventsTable events={events}/>
                     </TabPanel>
                 </>

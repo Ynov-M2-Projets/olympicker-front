@@ -1,26 +1,10 @@
 import TextField from "@mui/material/TextField";
+import CommonEventFormFields from "./CommonEventFormFields";
 
 export default function StageFormFields({stage, onChange}){
     return (
         <>
-            <TextField
-                label="Nom"
-                fullWidth
-                margin="dense"
-                required
-                value={stage.name}
-                onChange={onChange('name')}
-            />
-            <TextField
-                label="Description"
-                fullWidth
-                margin="dense"
-                required
-                multiline
-                rows={5}
-                value={stage.description}
-                onChange={onChange('description')}
-            />
+            <CommonEventFormFields event={stage} onChange={onChange}/>
             <TextField
                 label="Lieu"
                 margin="dense"
