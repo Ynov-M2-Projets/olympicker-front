@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { axios, axiosHeaders } from "../../utils/axios-client";
 import PageContainer from "../../components/Layout/PageContainer";
@@ -28,12 +28,12 @@ export default function ViewEvent() {
     async function fetchData() {
       setFetching(true);
       await axios
-        .get(`/events/${params.eventId}`, { ...axiosHeaders })
+        .get(`/events/${params.eventId}`, { ...axiosHeaders() })
         .then((result) => {
-          setEvent(result.data);
+          setEvent(result.data);console.log(result.data);
         })
         .catch(console.error);
-      await axios.get(`/events/${params.eventId}/participants`,{...axiosHeaders})
+      await axios.get(`/events/${params.eventId}/participants`,{...axiosHeaders()})
           .then(result => {
               setMembers(result.data);
           }).catch(console.error)
@@ -49,7 +49,7 @@ export default function ViewEvent() {
   const onJoinEvent = () => {
     setJoining(true);
     axios
-      .get(`/events/${event.id}/join`, { ...axiosHeaders })
+      .get(`/events/${event.id}/join`, { ...axiosHeaders() })
       .then(() => {
         setMembers((prev) => [...prev, user]);
       })
@@ -60,7 +60,7 @@ export default function ViewEvent() {
   const onLeaveEvent = () => {
     setLeaving(true);
     axios
-      .get(`/events/${event.id}/leave`, { ...axiosHeaders })
+      .get(`/events/${event.id}/leave`, { ...axiosHeaders() })
       .then(() => {
         setMembers((prev) => prev.filter((member) => member.id !== user.id));
       })
@@ -117,10 +117,10 @@ export default function ViewEvent() {
               columns={{ xs: 4, sm: 8, md: 12 }}
             >
               <Grid item xs={4} sm={2} md={2} className="font-bold">
-                Créateur
+                Organisation
               </Grid>
               <Grid item xs={4} sm={6} md={10}>
-                {event.organization.name}
+                <Link to={`/organization/${event.organization.id}`}>{event.organization.name}</Link>
               </Grid>
               <Grid item xs={4} sm={2} md={2} className="font-bold">
                 Description

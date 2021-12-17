@@ -19,6 +19,11 @@ import EventsTable from "../../components/table/EventsTable";
 import AssignmentReturnIcon from '@mui/icons-material/AssignmentReturn';
 import CancelPresentationIcon from '@mui/icons-material/CancelPresentation';
 import LoadingButton from "@mui/lab/LoadingButton";
+import Button from "@mui/material/Button";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import EventFormDialog from "../../components/dialog/event/EventFormDialog";
 
 export default function ViewOrganization() {
     const params = useParams();
@@ -27,20 +32,30 @@ export default function ViewOrganization() {
     const [fetching, setFetching] = useState(true);
     const [organization, setOrganization] = useState(null);
     const [members, setMembers] = useState([]);
+    const [events, setEvents] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [joining, setJoining] = useState(false);
     const [leaving, setLeaving] = useState(false);
 
+    //event
+    const [anchorMenu, setAnchorMenu] = useState(null);
+    const [menuType, setMenuType] = useState('simple');
+    const [openEventDialog, setOpenEventDialog] = useState(false);
+
     useEffect(() => {
         async function fetchData(){
             setFetching(true);
-            await axios.get(`/orgs/${params.organizationId}`,{...axiosHeaders})
+            await axios.get(`/orgs/${params.organizationId}`,{...axiosHeaders()})
                 .then(result => {
                     setOrganization(result.data);
                 }).catch(console.error)
-            await axios.get(`/orgs/${params.organizationId}/members`,{...axiosHeaders})
+            await axios.get(`/orgs/${params.organizationId}/members`,{...axiosHeaders()})
                 .then(result => {
                     setMembers(result.data);
+                }).catch(console.error)
+            await axios.get(`/orgs/${params.organizationId}/events`,{...axiosHeaders()})
+                .then(result => {
+                    setEvents(result.data);
                 }).catch(console.error)
             setFetching(false);
         }
@@ -53,7 +68,7 @@ export default function ViewOrganization() {
 
     const onJoinOrganisation = () => {
         setJoining(true);
-        axios.put(`/orgs/${organization.id}/add_member/${user.id}`,{},{...axiosHeaders})
+        axios.put(`/orgs/${organization.id}/add_member/${user.id}`,{},{...axiosHeaders()})
             .then(() => {
                 setMembers(prev => [...prev, user]);
             }).catch(console.error).finally(() => setJoining(false))
@@ -61,7 +76,7 @@ export default function ViewOrganization() {
 
     const onLeaveOrganisation = () => {
         setLeaving(true);
-        axios.put(`/orgs/${organization.id}/remove_member/${user.id}`,{},{...axiosHeaders})
+        axios.put(`/orgs/${organization.id}/remove_member/${user.id}`,{},{...axiosHeaders()})
             .then(() => {
                 setMembers(prev => prev.filter(member => member.id !== user.id));
             }).catch(console.error).finally(() => setLeaving(false))
@@ -124,6 +139,47 @@ export default function ViewOrganization() {
         );
     }
 
+    const onSelectMenuItem = (type) => {
+        setAnchorMenu(null);
+        setMenuType(type);
+        setOpenEventDialog(true);
+    }
+
+    const onNewEvent = (newEvent) => {
+        setEvents(prev => [...prev, newEvent]);
+    }
+
+    const eventMenu = (
+        <div className="d-flex justify-center mb-1">
+            <Button
+                aria-controls="menu-event-type"
+                aria-haspopup="true"
+                variant="contained"
+                startIcon={<KeyboardArrowDownIcon/>}
+                aria-expanded={!!anchorMenu ? 'true' : undefined}
+                onClick={(e) => setAnchorMenu(e.currentTarget)}
+            >
+                Nouvel évènement
+            </Button>
+            <Menu
+                id="menu-event-type"
+                anchorEl={anchorMenu}
+                open={!!anchorMenu}
+                onClose={() => setAnchorMenu(null)}
+            >
+                <MenuItem onClick={() => onSelectMenuItem('simple')}>Simple</MenuItem>
+                <MenuItem onClick={() => onSelectMenuItem('stage')}>Etapes</MenuItem>
+            </Menu>
+            <EventFormDialog
+                open={openEventDialog}
+                type={menuType}
+                onClose={() => setOpenEventDialog(false)}
+                onActionEnd={onNewEvent}
+                orgId={organization ? organization.id : null}
+            />
+        </div>
+    );
+
     return (
         <PageContainer title={title()} loading={fetching}>
             {organization && (
@@ -153,7 +209,8 @@ export default function ViewOrganization() {
                         <UsersTable users={members}/>
                     </TabPanel>
                     <TabPanel value={tab} index={1}>
-                        <EventsTable events={[]}/>
+                        {isOwner && eventMenu}
+                        <EventsTable events={events}/>
                     </TabPanel>
                 </>
             )}

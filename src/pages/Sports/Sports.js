@@ -14,9 +14,9 @@ const Sports = () => {
       .get("/sports")
       .then((result) => {
         const options = [];
-        result.data.content.forEach((element) => {
+        result.data.forEach((element) => {
           options.push(
-            <Column>
+            <Column key={`sport-${element.id}`}>
               <Card
                 titre={element.name}
                 text={element.description}
@@ -49,7 +49,7 @@ const Sports = () => {
           fontSize: "3 rem",
         }}
       >
-        List des sports
+        Liste des sports
       </h1>
       <Container>
         <Row>{card}</Row>
