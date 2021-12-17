@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import Card from "../../components/card/Card";
 import { Container, Row, Column } from "./HomeStyles";
 import { axios } from "../../utils/axios-client";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [card, setCard] = useState([]);
 
+  const navigate = useNavigate();
+
   const loadList = () => {
-    //TODO affiché que les 8 premier event 
     axios
       .get("/events")
       .then((result) => {
-        console.log(result.data.content);
         const options = [];
         result.data.content.forEach((element) => {
           options.push(
@@ -21,6 +22,8 @@ const Home = () => {
                 text={element.description}
                 imgTitle="green iguana"
                 imgPath="/logo192.png"
+                id={element.id}
+                onClickFunction={(index) => onViewEvent(index)}
               />
             </Column>
           );
@@ -29,6 +32,10 @@ const Home = () => {
         setCard(options.reverse().slice(0,8));
       })
       .catch(console.error);
+  };
+
+  const onViewEvent = (eve) => {
+    navigate(`/events/${eve}`);
   };
 
   useEffect(() => {
