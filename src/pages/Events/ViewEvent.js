@@ -155,7 +155,7 @@ export default function ViewEvent() {
             {isStageEvent && (
                 <TabPanel value={tab} index={1}>
                     {(event && user && user.id === event.organization.owner.id) && addStageButton}
-                    <StagesTable stages={event.stages}/>
+                    <StagesTable stages={event.stages} type={event.type}/>
                 </TabPanel>
             )}
         </>
