@@ -15,7 +15,7 @@ export default function ProfileSecurityForm() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitting(true);
-        axios.put('/users/change_password', {newPassword, oldPassword},{...axiosHeaders})
+        axios.put('/users/change_password', {newPassword, oldPassword},{...axiosHeaders()})
             .then(() => { showSnackbar('Mot de passe changé'); resetForm(); })
             .catch(error => { showSnackbar(error.toString(), 'error') })
             .finally(() => setSubmitting(false))

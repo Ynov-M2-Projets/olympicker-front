@@ -52,7 +52,7 @@ export default function EventFormDialog({open, onClose, type, event = null}) {
 
     useEffect(() => {
         setFetching(true);
-        axios.get(`/sports`,{...axiosHeaders})
+        axios.get(`/sports`,{...axiosHeaders()})
             .then(result => {
                 setSports(result.data);
             })

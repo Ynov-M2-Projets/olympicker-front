@@ -13,7 +13,7 @@ const Sports = () => {
         const options = [];
         result.data.forEach((element) => {
           options.push(
-            <Column>
+            <Column key={`sport-${element.id}`}>
               <Card
                 titre={element.name}
                 text={element.description}

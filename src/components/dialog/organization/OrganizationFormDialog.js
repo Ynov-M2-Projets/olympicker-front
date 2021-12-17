@@ -32,9 +32,9 @@ export default function OrganizationFormDialog({open, organization = null, onClo
         setSubmitting(true);
         let request;
         if(organization){
-            request = axios.put(`/orgs/${organization.id}`,{name,description},{...axiosHeaders})
+            request = axios.put(`/orgs/${organization.id}`,{name,description},{...axiosHeaders()})
         }else{
-            request = axios.post(`/orgs`,{name,description},{...axiosHeaders});
+            request = axios.post(`/orgs`,{name,description},{...axiosHeaders()});
         }
         request
             .then(result => {

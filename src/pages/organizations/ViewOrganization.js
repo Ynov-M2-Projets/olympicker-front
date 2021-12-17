@@ -45,15 +45,15 @@ export default function ViewOrganization() {
     useEffect(() => {
         async function fetchData(){
             setFetching(true);
-            await axios.get(`/orgs/${params.organizationId}`,{...axiosHeaders})
+            await axios.get(`/orgs/${params.organizationId}`,{...axiosHeaders()})
                 .then(result => {
                     setOrganization(result.data);
                 }).catch(console.error)
-            await axios.get(`/orgs/${params.organizationId}/members`,{...axiosHeaders})
+            await axios.get(`/orgs/${params.organizationId}/members`,{...axiosHeaders()})
                 .then(result => {
                     setMembers(result.data);
                 }).catch(console.error)
-            await axios.get(`/orgs/${params.organizationId}/events`,{...axiosHeaders})
+            await axios.get(`/orgs/${params.organizationId}/events`,{...axiosHeaders()})
                 .then(result => {
                     setEvents(result.data);
                 }).catch(console.error)
@@ -68,7 +68,7 @@ export default function ViewOrganization() {
 
     const onJoinOrganisation = () => {
         setJoining(true);
-        axios.put(`/orgs/${organization.id}/add_member/${user.id}`,{},{...axiosHeaders})
+        axios.put(`/orgs/${organization.id}/add_member/${user.id}`,{},{...axiosHeaders()})
             .then(() => {
                 setMembers(prev => [...prev, user]);
             }).catch(console.error).finally(() => setJoining(false))
@@ -76,7 +76,7 @@ export default function ViewOrganization() {
 
     const onLeaveOrganisation = () => {
         setLeaving(true);
-        axios.put(`/orgs/${organization.id}/remove_member/${user.id}`,{},{...axiosHeaders})
+        axios.put(`/orgs/${organization.id}/remove_member/${user.id}`,{},{...axiosHeaders()})
             .then(() => {
                 setMembers(prev => prev.filter(member => member.id !== user.id));
             }).catch(console.error).finally(() => setLeaving(false))

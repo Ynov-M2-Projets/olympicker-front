@@ -15,7 +15,7 @@ const Home = () => {
         const options = [];
         result.data.content.forEach((element) => {
           options.push(
-            <Column>
+            <Column key={`event-${element.id}`}>
               <Card
                 titre={element.name}
                 text={element.description}
