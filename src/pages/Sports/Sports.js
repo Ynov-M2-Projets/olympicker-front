@@ -24,7 +24,7 @@ const Sports = () => {
                 imgPath="/logo192.png"
                 id={element.id}
                 onClickFunction={(index) => onViewSport(index)}
-              ></Card>
+              />
             </Column>
           );
         });
