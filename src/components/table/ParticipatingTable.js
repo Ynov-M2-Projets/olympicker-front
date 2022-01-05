@@ -7,6 +7,7 @@ import TableBody from "@mui/material/TableBody";
 import TableContainer from "@mui/material/TableContainer";
 
 export default function UsersTable({users}) {
+    console.log(users);
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -26,8 +27,7 @@ export default function UsersTable({users}) {
                         >
                             <TableCell component="th" scope="row">{oneUser.lastName} </TableCell>
                             <TableCell align="left">{oneUser.firstName}</TableCell>
-                            <TableCell>
-                            </TableCell>
+                            <TableCell/>
                         </TableRow>
                     ))}
                 </TableBody>

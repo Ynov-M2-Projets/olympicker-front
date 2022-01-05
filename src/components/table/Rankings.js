@@ -25,7 +25,6 @@ export default function Rankings({stage}){
             setError(null);
             axios.get(`/stages/${stage.id}/ranking`)
                 .then(result => {
-                    console.log(result.data);
                     setRanking(result.data);
                 })
                 .catch(error => setError(error.toString()))

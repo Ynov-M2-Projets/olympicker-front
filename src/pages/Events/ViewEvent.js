@@ -116,7 +116,6 @@ export default function ViewEvent() {
     );
   };
 
-  console.log(event);
   const isStageEvent = event && event.type === "STAGE";
 
   const handleNewStage = (newEvent) => {
